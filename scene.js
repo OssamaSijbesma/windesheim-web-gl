@@ -12,8 +12,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 /*___ Camera ___*/
-
-// Create camera
 var camera = new THREE.PerspectiveCamera(
 	75, // fov — Camera frustum vertical field of view.
 	window.innerWidth/window.innerHeight, // aspect — Camera frustum aspect ratio.
@@ -22,42 +20,65 @@ var camera = new THREE.PerspectiveCamera(
 
 
 // Move camera from center
-camera.position.x = 2;
-camera.position.y = 2;
-camera.position.z = 5;
+camera.position.x = -10;
+camera.position.y = 20;
+camera.position.z = -10;
 
 /*___ SkyBox ___*/
 scene.background = new THREE.CubeTextureLoader()
-	.setPath( 'resources/skybox/' )
-	.load( [
+	.setPath('resources/skybox/')
+	.load([
 		'posx.jpg',
 		'negx.jpg',
 		'posy.jpg',
 		'negy.jpg',
 		'posz.jpg',
 		'negz.jpg'
-	] );
-	
-
-// var skyGeometry = new THREE.CubeGeometry( 5000, 5000, 5000 );
-// var skyMaterial = new THREE.MeshBasicMaterial( { map: skyBoxTextures } );
-// var faceMaterial = new THREE.MeshFaceMaterial( skyMaterial );
-// var skyBox = new THREE.Mesh(skyGeometry, faceMaterial);
-// scene.add(skyBox);
-
+	]);
 
 /*___ Simulate Daylight ___*/ 
 
 // Hemisphere light: A light source positioned directly above the scene, with color fading from the sky color to the ground color.
-var hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.2);
+var hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.5);
 scene.add(hemisphereLight);
 
 // Directional light: A light that gets emitted in a specific direction.
 var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 scene.add(directionalLight);
 
+/*___ Textures ___*/
+var textureLoader = new THREE.TextureLoader();
+
+// Set grass texture
+var textureGrass = textureLoader.load( "resources/grass.png" );
+textureGrass.repeat.set( 50,50 );
+textureGrass.wrapS = textureGrass.wrapT = THREE.RepeatWrapping;
+textureGrass.format = THREE.RGBFormat;
+textureGrass.encoding = THREE.sRGBEncoding; 
 
 
+/*___ Floor ___*/
+
+// Lawn
+var lawnGeometry = new THREE.PlaneBufferGeometry(1000, 1000);
+var lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
+var lawn = new THREE.Mesh(lawnGeometry, lawnMaterial);
+lawn.position.y = 0
+lawn.rotation.x = - Math.PI / 2;
+lawn.receiveShadow = true;
+scene.add(lawn);
+
+// Pavement
+
+// Road
+
+/*___ Houses ___*/
+
+/*___ Decoration ___*/
+
+// Trees
+
+// Lamppost
 
 // Point light: A light that gets emitted from a single point in all directions. A common use case for this is to replicate the light emitted from a bare lightbulb.
 // var light = new THREE.PointLight( 0xff0000, 1, 100 );
@@ -65,22 +86,7 @@ scene.add(directionalLight);
 // scene.add( light );
 
 
-
-var geometry = new THREE.BoxGeometry(1,1,1);
-//var material = new THREE.MeshNormalMaterial();
-var material = new THREE.MeshPhongMaterial({color:0xad0000, shininess:100});
-var cube = new THREE.Mesh(geometry, material);
-var clock = new THREE.Clock();
-scene.add(cube);
-
-const color = 0xFFFFFF;
-const intensity = 1;
-const light = new THREE.AmbientLight(color, intensity);
-scene.add(light);
-
-
 /*___ Render Page ___*/
-// renderer.render(scene, camera)
 var render = function(){
 	renderer.render(scene, camera);
 	requestAnimationFrame(render);  
