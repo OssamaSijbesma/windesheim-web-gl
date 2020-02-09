@@ -26,9 +26,9 @@ camera.position.x = 2;
 camera.position.y = 2;
 camera.position.z = 5;
 
-/*___ Skybox ___*/
+/*___ SkyBox ___*/
 scene.background = new THREE.CubeTextureLoader()
-	.setPath( '/skybox/' )
+	.setPath( 'resources/skybox/' )
 	.load( [
 		'posx.jpg',
 		'negx.jpg',
@@ -37,7 +37,13 @@ scene.background = new THREE.CubeTextureLoader()
 		'posz.jpg',
 		'negz.jpg'
 	] );
+	
 
+// var skyGeometry = new THREE.CubeGeometry( 5000, 5000, 5000 );
+// var skyMaterial = new THREE.MeshBasicMaterial( { map: skyBoxTextures } );
+// var faceMaterial = new THREE.MeshFaceMaterial( skyMaterial );
+// var skyBox = new THREE.Mesh(skyGeometry, faceMaterial);
+// scene.add(skyBox);
 
 
 /*___ Simulate Daylight ___*/ 
@@ -72,4 +78,11 @@ const intensity = 1;
 const light = new THREE.AmbientLight(color, intensity);
 scene.add(light);
 
-renderer.render(scene, camera)
+
+/*___ Render Page ___*/
+// renderer.render(scene, camera)
+var render = function(){
+	renderer.render(scene, camera);
+	requestAnimationFrame(render);  
+}
+render();
