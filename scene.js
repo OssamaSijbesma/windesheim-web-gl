@@ -20,9 +20,9 @@ var camera = new THREE.PerspectiveCamera(
 
 
 // Start position of the camera
-camera.position.x = -10;
-camera.position.y = 20;
-camera.position.z = -10;
+camera.position.x = 0;
+camera.position.y = 8;
+camera.position.z = -50;
 
 // Camera movement through the arrow keys
 let ArrowUp = false;
@@ -49,8 +49,8 @@ document.addEventListener('keyup', function(event) {
 });
 
 function updatePosition(){
-	if (ArrowUp) camera.position.z--;
-	if (ArrowDown) camera.position.z++;
+	if (ArrowUp) camera.position.z++;
+	if (ArrowDown) camera.position.z--;
 	if (ArrowLeft) camera.position.x--;
 	if (ArrowRight) camera.position.x++;
 }
@@ -98,7 +98,7 @@ var lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
 var lawn = new THREE.Mesh(lawnGeometry, lawnMaterial);
 lawn.position.y = 0
 lawn.rotation.x = - Math.PI / 2;
-lawn.receiveShadow = true;
+lawn.receiveShadow = false;
 scene.add(lawn);
 
 // Pavement
@@ -119,9 +119,15 @@ scene.add(lawn);
 // scene.add( light );
 
 
+/*___ OrbitControls ___*/
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableRotate = true;
+
 /*___ Render Page ___*/
 var render = function(){
 	renderer.render(scene, camera);
+
+	controls.update();
 	requestAnimationFrame(render);  
 }
 render();
