@@ -111,6 +111,20 @@ scene.add(lawn);
 
 // Trees
 
+// Grass
+var loader = new THREE.ObjectLoader();
+loader.load("resources/models/dense-grass.json", function ( obj ) {
+	obj.position.y = -5;
+	obj.scale.set(0.2,0.2,0.2);
+     scene.add( obj );
+});
+
+// var object = loader.parse("resources/models/dense-grass.json");
+// // object.position.x = -10;
+// // object.position.y = 20;
+// // object.position.z = -10;
+// scene.add( object );
+
 // Lamppost
 
 // Point light: A light that gets emitted from a single point in all directions. A common use case for this is to replicate the light emitted from a bare lightbulb.
