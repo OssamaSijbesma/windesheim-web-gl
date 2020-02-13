@@ -29,7 +29,7 @@ let ArrowUp = false;
 let ArrowDown = false;
 let ArrowLeft = false;
 let ArrowRight = false;
-camera.rotation.y = 180 * Math.PI / 180;
+//camera.rotation.y = 180 * Math.PI / 180;
 document.addEventListener('keydown', function(event) {
 	switch(event.code){
 		case 'ArrowUp': ArrowUp = true; break
@@ -110,6 +110,20 @@ scene.add(lawn);
 /*___ Decoration ___*/
 
 // Trees
+
+// Grass
+var loader = new THREE.ObjectLoader();
+loader.load("resources/models/dense-grass.json", function ( obj ) {
+	obj.position.y = -5;
+	obj.scale.set(0.2,0.2,0.2);
+     scene.add( obj );
+});
+
+// var object = loader.parse("resources/models/dense-grass.json");
+// // object.position.x = -10;
+// // object.position.y = 20;
+// // object.position.z = -10;
+// scene.add( object );
 
 // Lamppost
 
