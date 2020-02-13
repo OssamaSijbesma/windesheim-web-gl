@@ -29,7 +29,7 @@ let ArrowUp = false;
 let ArrowDown = false;
 let ArrowLeft = false;
 let ArrowRight = false;
-camera.rotation.y = 180 * Math.PI / 180;
+//camera.rotation.y = 180 * Math.PI / 180;
 document.addEventListener('keydown', function(event) {
 	switch(event.code){
 		case 'ArrowUp': ArrowUp = true; break
