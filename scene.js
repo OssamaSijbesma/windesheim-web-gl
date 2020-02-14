@@ -56,7 +56,7 @@ scene.add(directionalLight);
 
 // Grass
 // Grass models
-objectLoader.load("resources/models/dense-grass.json", function ( grassObject ) {
+objectLoader.load("resources/models/grass/dense-grass.json", function ( grassObject ) {
 	grassObject.scale.set(0.1,0.3,0.1);
 	grassObject.position.y = -9;
 
@@ -159,6 +159,15 @@ scene.add(house);
 
 
 /*___ Decoration ___*/
+
+// Big choicken
+objectLoader.load("resources/models/chicken/minecraft-chicken.json", function ( chickenObject )
+{
+	chickenObject.scale.set(5, 5, 5);
+	chickenObject.position.set(0,0,140);
+	chickenObject.rotateY(-300);
+	scene.add(chickenObject);
+});
 
 // Trees
 
