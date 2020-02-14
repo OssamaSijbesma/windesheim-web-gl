@@ -52,20 +52,9 @@ scene.add(hemisphereLight);
 var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 scene.add(directionalLight);
 
-/*___ Textures ___*/
-
-
-
-
 /*___ Floor ___*/
 
-// Set grass texture
-var textureGrass = textureLoader.load( "resources/grass.png" );
-textureGrass.repeat.set(1,1);
-textureGrass.wrapS = textureGrass.wrapT = THREE.RepeatWrapping;
-textureGrass.format = THREE.RGBFormat;
-textureGrass.encoding = THREE.sRGBEncoding; 
-
+// Grass
 // Grass models
 objectLoader.load("resources/models/dense-grass.json", function ( grassObject ) {
 	grassObject.scale.set(0.1,0.3,0.1);
@@ -95,6 +84,10 @@ objectLoader.load("resources/models/dense-grass.json", function ( grassObject ) 
 	}
 });
 
+// Grass texture
+var textureGrass = textureLoader.load( "resources/grass.png" );
+textureGrass.repeat.set(1,1);
+
 // Lawn
 let lawnGeometry = new THREE.PlaneBufferGeometry(120, 280);
 let lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
@@ -120,50 +113,54 @@ makeLawnBorder(-40, 0, 200, 40, true);
 makeLawnBorder(20, 0, -60, 120, false);
 makeLawnBorder(20, 0, 220, 120, false);
 
-// Pavement
-function makePavement(x, y, z, width, height)
+
+// Sidewalks texture
+var textureSidewalk = textureLoader.load("resources/sidewalks.jpg");
+
+
+// Sidewalk
+function createSidewalk(xi, y, zi, width, height)
 {
-	let pavementGeometry = new THREE.PlaneBufferGeometry(width, height);
-	let pavementMaterial = new THREE.MeshPhongMaterial({ color: 0x000000, shininess: 100 });
-	let pavement = new THREE.Mesh(pavementGeometry, pavementMaterial);
-	pavement.rotation.x = - Math.PI / 2;
-	pavement.position.set(x, y, z);
-	scene.add(pavement);
+	//textureSidewalk.repeat.set(255/width, 255/height);
+	textureSidewalk.wrapS = textureSidewalk.wrapT  = THREE.RepeatWrapping;
+	let sidewalkGeometry = new THREE.PlaneBufferGeometry(40, 40);
+	let sidewalkMaterial = new THREE.MeshBasicMaterial({ map: textureSidewalk });
+	let sidewalk = new THREE.Mesh(sidewalkGeometry, sidewalkMaterial);
+	sidewalk.rotation.x = - Math.PI / 2;
+
+	for (let x = 0; x < width; x+=40) {
+		for (let z = 0; z < height; z+=40) {
+			let sidewalkBlock = sidewalk.clone();
+			sidewalkBlock.position.set(xi+x, y, zi+z);
+			scene.add(sidewalkBlock);
+		}
+	}
 }
 
-makePavement(-60, 0, 80, 40, 280);
-makePavement(100, 0, 80, 40, 280);
-makePavement(10, 0, -120, 180, 120);
+createSidewalk(-60, 0, -40, 40, 280);
+createSidewalk(100, 0, -40, 40, 280);
+createSidewalk(-60, 0, -160, 200, 120);
+createSidewalk(-60, 0, 240, 200, 40);
 
 // Road
 
 /*___ Houses ___*/
-var geometry = new THREE.BoxGeometry(80, 80, 200);
+var geometry = new THREE.BoxGeometry(80, 80, 250);
 var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
 var house = new THREE.Mesh(geometry, material);
-house.position.set(-140, 40, 0);
+house.position.set(-170, 40, 0);
 scene.add(house);
 
-var geometry = new THREE.BoxGeometry(80, 80, 200);
+var geometry = new THREE.BoxGeometry(80, 80, 250);
 var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
 var house = new THREE.Mesh(geometry, material);
-house.position.set(140, 40, 0);
+house.position.set(170, 40, 0);
 scene.add(house);
 
 
 /*___ Decoration ___*/
 
 // Trees
-
-
-
-// var object = loader.parse("resources/models/dense-grass.json");
-// // object.position.x = -10;
-// // object.position.y = 20;
-// // object.position.z = -10;
-// scene.add( object );
-
-// Lamppost
 
 // Lamppost without light comming from it
 function makeLamppost(x, y, z){
@@ -193,10 +190,6 @@ makeLamppost(-45, 25, 100);
 // var light = new THREE.PointLight( 0xff0000, 1, 100 );
 // light.position.set( 200, 200, 200 );
 // scene.add( light );
-
-
-
-
 
 /*___ Render Page ___*/
 var render = function(){
