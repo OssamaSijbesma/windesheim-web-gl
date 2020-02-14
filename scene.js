@@ -7,21 +7,25 @@
 let scene = new THREE.Scene();
 
 // Create renderer
-var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+let renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// loaders
+let objectLoader = new THREE.ObjectLoader();
+let textureLoader = new THREE.TextureLoader();
 
 /*___ Camera ___*/
 
 // Perspective camera to mimic the way the human eye sees.
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
 // Start position of the camera
 camera.position.x = -2;
 camera.position.y = 44;
 camera.position.z = -115;
 
-var controls = new THREE.OrbitControls(camera, renderer.domElement);
+let controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableRotate = true;
 
 // For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
@@ -49,62 +53,21 @@ var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 scene.add(directionalLight);
 
 /*___ Textures ___*/
-var textureLoader = new THREE.TextureLoader();
 
-// Set grass texture
-var textureGrass = textureLoader.load( "resources/grass.png" );
-textureGrass.repeat.set( 10,10 );
-textureGrass.wrapS = textureGrass.wrapT = THREE.RepeatWrapping;
-textureGrass.format = THREE.RGBFormat;
-textureGrass.encoding = THREE.sRGBEncoding; 
+
 
 
 /*___ Floor ___*/
 
-// Lawn
-var lawnGeometry = new THREE.PlaneBufferGeometry(120, 280);
-var lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
-var lawn = new THREE.Mesh(lawnGeometry, lawnMaterial);
-lawn.rotation.x = - Math.PI / 2;
-lawn.position.x = 20;
-lawn.position.z = 80;
-scene.add(lawn);
+// Set grass texture
+var textureGrass = textureLoader.load( "resources/grass.png" );
+textureGrass.repeat.set(1,1);
+textureGrass.wrapS = textureGrass.wrapT = THREE.RepeatWrapping;
+textureGrass.format = THREE.RGBFormat;
+textureGrass.encoding = THREE.sRGBEncoding; 
 
-// Lawn borders
-var geometry = new THREE.BoxGeometry(1, 1, 160);
-var material = new THREE.MeshBasicMaterial({ color: 0x2C393F});
-var border = new THREE.Mesh(geometry, material);
-border.position.set(-40, 0, 20);
-scene.add(border);
-
-var geometry = new THREE.BoxGeometry(1, 1, 280);
-var material = new THREE.MeshBasicMaterial({ color: 0x2C393F});
-var border = new THREE.Mesh(geometry, material);
-border.position.set(80, 0, 80);
-scene.add(border);
-
-var geometry = new THREE.BoxGeometry(1, 1, 40);
-var material = new THREE.MeshBasicMaterial({ color: 0x2C393F});
-var border = new THREE.Mesh(geometry, material);
-border.position.set(-40, 0, 200);
-scene.add(border);
-
-var geometry = new THREE.BoxGeometry(120, 1, 1);
-var material = new THREE.MeshBasicMaterial({ color: 0x2C393F});
-var border = new THREE.Mesh(geometry, material);
-border.position.set(20, 0, -60);
-scene.add(border);
-
-var geometry = new THREE.BoxGeometry(120, 1, 1);
-var material = new THREE.MeshBasicMaterial({ color: 0x2C393F});
-var border = new THREE.Mesh(geometry, material);
-border.position.set(20, 0, 220);
-scene.add(border);
-
-// Grass
-var loader = new THREE.ObjectLoader();
-
-loader.load("resources/models/dense-grass.json", function ( grassObject ) {
+// Grass models
+objectLoader.load("resources/models/dense-grass.json", function ( grassObject ) {
 	grassObject.scale.set(0.1,0.3,0.1);
 	grassObject.position.y = -9;
 
@@ -124,16 +87,53 @@ loader.load("resources/models/dense-grass.json", function ( grassObject ) {
 		scene.add(grass);
 	}
 
-
-		for (let x = -20; x < 80; x+=40) {
-			let grass = grassObject.clone();
-			grass.position.x = x;
-			grass.position.z = 200;
-			scene.add(grass);
-		}
+	for (let x = -20; x < 80; x+=40) {
+		let grass = grassObject.clone();
+		grass.position.x = x;
+		grass.position.z = 200;
+		scene.add(grass);
+	}
 });
 
+// Lawn
+let lawnGeometry = new THREE.PlaneBufferGeometry(120, 280);
+let lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
+let lawn = new THREE.Mesh(lawnGeometry, lawnMaterial);
+lawn.rotation.x = - Math.PI / 2;
+lawn.position.x = 20;
+lawn.position.z = 80;
+scene.add(lawn);
+
+// Lawn borders
+function makeLawnBorder(x, y, z, size, isHorizontal)
+{
+	let lawnBorderGeometry = (isHorizontal) ? new THREE.BoxGeometry(1, 1, size) : new THREE.BoxGeometry(size, 1, 1);
+	let lawnBorderMaterial = new THREE.MeshBasicMaterial({ color: 0x2C393F});
+	let lawnBorder = new THREE.Mesh(lawnBorderGeometry, lawnBorderMaterial);
+	lawnBorder.position.set(x, y, z);
+	scene.add(lawnBorder);
+}
+
+makeLawnBorder(-40, 0, 20, 160, true);
+makeLawnBorder(80, 0, 80, 280, true);
+makeLawnBorder(-40, 0, 200, 40, true);
+makeLawnBorder(20, 0, -60, 120, false);
+makeLawnBorder(20, 0, 220, 120, false);
+
 // Pavement
+function makePavement(x, y, z, width, height)
+{
+	let pavementGeometry = new THREE.PlaneBufferGeometry(width, height);
+	let pavementMaterial = new THREE.MeshPhongMaterial({ color: 0x000000, shininess: 100 });
+	let pavement = new THREE.Mesh(pavementGeometry, pavementMaterial);
+	pavement.rotation.x = - Math.PI / 2;
+	pavement.position.set(x, y, z);
+	scene.add(pavement);
+}
+
+makePavement(-60, 0, 80, 40, 280);
+makePavement(100, 0, 80, 40, 280);
+makePavement(10, 0, -120, 180, 120);
 
 // Road
 
