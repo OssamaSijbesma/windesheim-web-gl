@@ -90,18 +90,19 @@ createSidewalks(100, 1, 50);
 createSidewalks(100, 1, -50);
 createSidewalks(100, 1, 100);
 createSidewalks(100, 1, -100);
+createSidewalks(100, 1, 150);
+createSidewalks(100, 1, 200);
 
 createSidewalks(-100, 1, 0);
 createSidewalks(-100, 1, 50);
 createSidewalks(-100, 1, -50);
 createSidewalks(-100, 1, 100);
 createSidewalks(-100, 1, -100);
+createSidewalks(-100, 1, 150);
+createSidewalks(-100, 1, 200);
 
-createSidewalks(50, 1, 100);
 createSidewalks(50, 1, -100);
 createSidewalks(-50, 1, -100);
-createSidewalks(-50, 1, 100);
-createSidewalks(0, 1, 100);
 createSidewalks(0, 1, -100);
 
 // Lawn borders
@@ -171,31 +172,29 @@ loader.load("resources/models/dense-grass.json", function ( grassObject ) {
 // Road
 
 /*___ Houses ___*/
-var geometry = new THREE.BoxGeometry(80, 80, 250);
+
 var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-var house = new THREE.Mesh(geometry, material);
-house.position.set(-170, 40, 0);
+var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
+house.position.set(-200, 40, 0);
 scene.add(house);
 
-var geometry = new THREE.BoxGeometry(80, 80, 250);
-var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-var house = new THREE.Mesh(geometry, material);
-house.position.set(170, 40, 0);
+var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
+balcony.position.set(-145, 50, 0);
+scene.add(balcony);
+
+var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
+house.position.set(200, 40, 0);
 scene.add(house);
+
+var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
+balcony.position.set(145, 50, 0);
+scene.add(balcony);
 
 
 /*___ Decoration ___*/
 
 // Trees
 
-
-// var object = loader.parse("resources/models/dense-grass.json");
-// // object.position.x = -10;
-// // object.position.y = 20;
-// // object.position.z = -10;
-// scene.add( object );
-
-// Lamppost
 
 // Lamppost without light comming from it
 function makeLamppost(x, y, z){
