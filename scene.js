@@ -12,55 +12,19 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 /*___ Camera ___*/
-var camera = new THREE.PerspectiveCamera(
-	75, // fov — Camera frustum vertical field of view.
-	window.innerWidth/window.innerHeight, // aspect — Camera frustum aspect ratio.
-	0.1, // near — Camera frustum near plane.
-	1000); // far — Camera frustum far plane. 
 
+// Perspective camera to mimic the way the human eye sees.
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
 // Start position of the camera
 camera.position.x = 0;
-camera.position.y = 8;
+camera.position.y = 10;
 camera.position.z = -50;
 
-// // Camera movement through the arrow keys
-// let ArrowUp = false;
-// let ArrowDown = false;
-// let ArrowLeft = false;
-// let ArrowRight = false;
-//camera.rotation.y = 180 * Math.PI / 180;
-
-// document.addEventListener('keydown', function(event) {
-// 	switch(event.code){
-// 		case 'ArrowUp': ArrowUp = true; break
-// 		case 'ArrowDown': ArrowDown = true; break
-// 		case 'ArrowLeft': ArrowLeft = true; break
-// 		case 'ArrowRight': ArrowRight = true; break
-// 	}
-// });
-
-// document.addEventListener('keyup', function(event) {
-// 	switch(event.code){
-// 		case 'ArrowUp': ArrowUp = false; break
-// 		case 'ArrowDown': ArrowDown = false; break
-// 		case 'ArrowLeft': ArrowLeft = false; break
-// 		case 'ArrowRight': ArrowRight = false; break
-// 	}
-// });
-
-// function updatePosition(){
-// 	if (ArrowUp) camera.position.z++;
-// 	if (ArrowDown) camera.position.z--;
-// 	if (ArrowLeft) camera.position.x--;
-// 	if (ArrowRight) camera.position.x++;
-// }
-
-// this.interval = setInterval(updatePosition, 20);
-
-/*___ OrbitControls ___*/
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableRotate = true;
+
+// For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
 
 /*___ SkyBox ___*/
 scene.background = new THREE.CubeTextureLoader()
