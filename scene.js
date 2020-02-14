@@ -17,9 +17,9 @@ document.body.appendChild(renderer.domElement);
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
 // Start position of the camera
-camera.position.x = 0;
-camera.position.y = 10;
-camera.position.z = -50;
+camera.position.x = -2;
+camera.position.y = 44;
+camera.position.z = -115;
 
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableRotate = true;
@@ -65,9 +65,7 @@ textureGrass.encoding = THREE.sRGBEncoding;
 var lawnGeometry = new THREE.PlaneBufferGeometry(1000, 1000);
 var lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
 var lawn = new THREE.Mesh(lawnGeometry, lawnMaterial);
-lawn.position.y = 0
 lawn.rotation.x = - Math.PI / 2;
-lawn.receiveShadow = false;
 scene.add(lawn);
 
 // Pavement
@@ -75,6 +73,18 @@ scene.add(lawn);
 // Road
 
 /*___ Houses ___*/
+var geometry = new THREE.BoxGeometry(80, 80, 200);
+var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+var house = new THREE.Mesh(geometry, material);
+house.position.set(-140, 40, 0);
+scene.add(house);
+
+var geometry = new THREE.BoxGeometry(80, 80, 200);
+var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+var house = new THREE.Mesh(geometry, material);
+house.position.set(140, 40, 0);
+scene.add(house);
+
 
 /*___ Decoration ___*/
 
@@ -84,7 +94,7 @@ scene.add(lawn);
 var loader = new THREE.ObjectLoader();
 loader.load("resources/models/dense-grass.json", function ( obj ) {
 	obj.position.y = -5;
-	obj.scale.set(0.2,0.2,0.2);
+	obj.scale.set(0.2,0.2,0.3);
      scene.add( obj );
 });
 
@@ -96,9 +106,34 @@ loader.load("resources/models/dense-grass.json", function ( obj ) {
 
 // Lamppost
 
+// Lamppost without light comming from it
+function makeLamppost(x, y, z){
+	var materialBordeaux = new THREE.MeshBasicMaterial( {color: 0x5A2323} );
+	var materialLamp = new THREE.MeshBasicMaterial({ color: 0x9C9B95})
+	
+	var pole = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 50, 32 ), materialBordeaux);
+	pole.position.set(x, y, z);
+	scene.add(pole);
+	
+	var lamp = new THREE.Mesh(new THREE.CylinderGeometry(2, 1, 5, 32), materialLamp);
+	lamp.position.set(x, 50, z);
+	scene.add(lamp);
+	
+	var lampshade = new THREE.Mesh(new THREE.CylinderGeometry(1, 5, 1, 32), materialBordeaux);
+	lampshade.position.set(x, 53, z);
+	scene.add(lampshade);
+}
+
+makeLamppost(-45, 25, -60);
+makeLamppost(45, 25, -60);
+makeLamppost(-45, 25, 60);
+makeLamppost(45, 25, 60);
+
+
+
 // Point light: A light that gets emitted from a single point in all directions. A common use case for this is to replicate the light emitted from a bare lightbulb.
 // var light = new THREE.PointLight( 0xff0000, 1, 100 );
-// light.position.set( 50, 50, 50 );
+// light.position.set( 200, 200, 200 );
 // scene.add( light );
 
 
