@@ -98,7 +98,7 @@ lawn.position.z = 80;
 scene.add(lawn);
 
 // Lawn borders
-function makeLawnBorder(x, y, z, size, isHorizontal)
+function createCurbSmall(x, y, z, size, isHorizontal)
 {
 	let lawnBorderGeometry = (isHorizontal) ? new THREE.BoxGeometry(1, 1, size) : new THREE.BoxGeometry(size, 1, 1);
 	let lawnBorderMaterial = new THREE.MeshBasicMaterial({ color: 0x2C393F});
@@ -107,11 +107,42 @@ function makeLawnBorder(x, y, z, size, isHorizontal)
 	scene.add(lawnBorder);
 }
 
-makeLawnBorder(-40, 0, 20, 160, true);
-makeLawnBorder(80, 0, 80, 280, true);
-makeLawnBorder(-40, 0, 200, 40, true);
-makeLawnBorder(20, 0, -60, 120, false);
-makeLawnBorder(20, 0, 220, 120, false);
+createCurbSmall(-40, 0, 20, 160, true);
+createCurbSmall(80, 0, 80, 280, true);
+createCurbSmall(-40, 0, 200, 40, true);
+createCurbSmall(20, 0, -60, 120, false);
+createCurbSmall(20, 0, 220, 120, false);
+
+createCurbSmall(120, 0, 40, 440, true);
+createCurbSmall(-80, 0, 40, 440, true);
+
+// playground curb
+function createCurb(x, y, z, size, isHorizontal)
+{
+	let curbGeometry = (isHorizontal) ? new THREE.BoxGeometry(4, 2, size) : new THREE.BoxGeometry(size, 2, 4);
+	let curbMaterial = new THREE.MeshBasicMaterial({ color: 0x2C393F});
+	let curb = new THREE.Mesh(curbGeometry, curbMaterial);
+	curb.position.set(x, y, z);
+	scene.add(curb);
+}
+
+createCurb(-40, 0, 140, 80, true);
+createCurb(40, 0, 140, 80, true);
+createCurb(0, 0, 100, 84, false);
+createCurb(0, 0, 180, 84, false);
+
+// Grass texture
+let textureWoodChips = textureLoader.load( "resources/woodchips.jpg" );
+textureWoodChips.wrapS = textureWoodChips.wrapT = THREE.RepeatWrapping;
+textureWoodChips.repeat.set(4,4);
+
+// playground
+let playgroundGeometry = new THREE.PlaneBufferGeometry(76, 76);
+let playgroundMaterial = new THREE.MeshPhongMaterial({ map: textureWoodChips });
+let playground = new THREE.Mesh(playgroundGeometry, playgroundMaterial);
+playground.rotation.x = - Math.PI / 2;
+playground.position.set(0,0.5,140);
+scene.add(playground);
 
 
 // Sidewalks texture
