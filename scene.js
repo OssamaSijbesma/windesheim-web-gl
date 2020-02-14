@@ -148,7 +148,6 @@ scene.add(playground);
 // Sidewalks texture
 var textureSidewalk = textureLoader.load("resources/sidewalks.jpg");
 
-
 // Sidewalk
 function createSidewalk(xi, y, zi, width, height)
 {
@@ -176,17 +175,23 @@ createSidewalk(-60, 0, 240, 200, 40);
 // Road
 
 /*___ Houses ___*/
-var geometry = new THREE.BoxGeometry(80, 80, 250);
+
 var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-var house = new THREE.Mesh(geometry, material);
-house.position.set(-170, 40, 0);
+var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
+house.position.set(-150, 40, 0);
 scene.add(house);
 
-var geometry = new THREE.BoxGeometry(80, 80, 250);
-var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-var house = new THREE.Mesh(geometry, material);
-house.position.set(170, 40, 0);
+var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
+balcony.position.set(-95, 50, 0);
+scene.add(balcony);
+
+var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
+house.position.set(190, 40, 0);
 scene.add(house);
+
+var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
+balcony.position.set(135, 50, 0);
+scene.add(balcony);
 
 
 /*___ Decoration ___*/
