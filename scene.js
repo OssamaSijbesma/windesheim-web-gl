@@ -24,38 +24,43 @@ camera.position.x = 0;
 camera.position.y = 8;
 camera.position.z = -50;
 
-// Camera movement through the arrow keys
-let ArrowUp = false;
-let ArrowDown = false;
-let ArrowLeft = false;
-let ArrowRight = false;
+// // Camera movement through the arrow keys
+// let ArrowUp = false;
+// let ArrowDown = false;
+// let ArrowLeft = false;
+// let ArrowRight = false;
 //camera.rotation.y = 180 * Math.PI / 180;
-document.addEventListener('keydown', function(event) {
-	switch(event.code){
-		case 'ArrowUp': ArrowUp = true; break
-		case 'ArrowDown': ArrowDown = true; break
-		case 'ArrowLeft': ArrowLeft = true; break
-		case 'ArrowRight': ArrowRight = true; break
-	}
-});
 
-document.addEventListener('keyup', function(event) {
-	switch(event.code){
-		case 'ArrowUp': ArrowUp = false; break
-		case 'ArrowDown': ArrowDown = false; break
-		case 'ArrowLeft': ArrowLeft = false; break
-		case 'ArrowRight': ArrowRight = false; break
-	}
-});
+// document.addEventListener('keydown', function(event) {
+// 	switch(event.code){
+// 		case 'ArrowUp': ArrowUp = true; break
+// 		case 'ArrowDown': ArrowDown = true; break
+// 		case 'ArrowLeft': ArrowLeft = true; break
+// 		case 'ArrowRight': ArrowRight = true; break
+// 	}
+// });
 
-function updatePosition(){
-	if (ArrowUp) camera.position.z++;
-	if (ArrowDown) camera.position.z--;
-	if (ArrowLeft) camera.position.x--;
-	if (ArrowRight) camera.position.x++;
-}
+// document.addEventListener('keyup', function(event) {
+// 	switch(event.code){
+// 		case 'ArrowUp': ArrowUp = false; break
+// 		case 'ArrowDown': ArrowDown = false; break
+// 		case 'ArrowLeft': ArrowLeft = false; break
+// 		case 'ArrowRight': ArrowRight = false; break
+// 	}
+// });
 
-this.interval = setInterval(updatePosition, 20);
+// function updatePosition(){
+// 	if (ArrowUp) camera.position.z++;
+// 	if (ArrowDown) camera.position.z--;
+// 	if (ArrowLeft) camera.position.x--;
+// 	if (ArrowRight) camera.position.x++;
+// }
+
+// this.interval = setInterval(updatePosition, 20);
+
+/*___ OrbitControls ___*/
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableRotate = true;
 
 /*___ SkyBox ___*/
 scene.background = new THREE.CubeTextureLoader()
@@ -133,14 +138,11 @@ loader.load("resources/models/dense-grass.json", function ( obj ) {
 // scene.add( light );
 
 
-/*___ OrbitControls ___*/
-var controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableRotate = true;
+
 
 /*___ Render Page ___*/
 var render = function(){
 	renderer.render(scene, camera);
-
 	controls.update();
 	requestAnimationFrame(render);  
 }
