@@ -162,6 +162,20 @@ var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
 balcony.position.set(135, 50, 0);
 scene.add(balcony);
 
+function createPillars(x, zMin, zMax){
+	var materialPillar = new THREE.MeshBasicMaterial( {color: 0xfefce2} );
+	var pillar = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 46, 32 ), materialPillar);
+
+	for (let z = zMin; z < zMax; z+=15) {
+		var pillar = pillar.clone();
+		pillar.position.set(x, 23, z+z);
+		scene.add(pillar);
+	}
+}
+
+createPillars(-85, -60, 75);
+createPillars(125, -60, 75);
+
 
 /*___ Decoration ___*/
 
