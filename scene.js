@@ -172,8 +172,6 @@ createSidewalk(100, 0, -40, 40, 280);
 createSidewalk(-60, 0, -160, 200, 120);
 createSidewalk(-60, 0, 240, 200, 40);
 
-// Road
-
 /*___ Houses ___*/
 
 var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
@@ -219,7 +217,7 @@ objectLoader.load("resources/models/chicken/minecraft-chicken.json", function ( 
 	scene.add(chickenObject);
 });
 
-// Trees
+// Trees?
 
 // Lamppost without light comming from it
 function makeLamppost(x, y, z){
@@ -243,12 +241,35 @@ makeLamppost(-45, 25, -60);
 makeLamppost(85, 25, 20);
 makeLamppost(-45, 25, 100);
 
-
-
 // Point light: A light that gets emitted from a single point in all directions. A common use case for this is to replicate the light emitted from a bare lightbulb.
 // var light = new THREE.PointLight( 0xff0000, 1, 100 );
 // light.position.set( 200, 200, 200 );
 // scene.add( light );
+
+// Benches
+objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchObject )
+{
+	benchObject.scale.set(0.08, 0.08, 0.08);
+
+	let bench1 = benchObject.clone();
+	bench1.position.set(45,0,160);
+	bench1.rotateY(-300);
+	scene.add(bench1);
+
+	let bench2 = benchObject.clone();
+	bench2.position.set(45,0,120);
+	bench2.rotateY(-300);
+	scene.add(bench2);
+
+	let bench3 = benchObject.clone();
+	bench3.position.set(68,0,20);
+	bench3.rotateY(-300);
+	scene.add(bench3);
+
+	let bench4 = benchObject.clone();
+	bench4.position.set(20,0,185);
+	scene.add(bench4);
+});
 
 /*___ Render Page ___*/
 var render = function(){
