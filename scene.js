@@ -58,7 +58,7 @@ scene.add(directionalLight);
 // Grass models
 objectLoader.load("resources/models/grass/dense-grass.json", function ( grassObject ) {
 	grassObject.scale.set(0.1,0.3,0.1);
-	grassObject.position.y = -9;
+	grassObject.position.y = -10;
 
 	for (let z = -40; z < 120; z+=40) {
 		for (let x = -20; x < 80; x+=40) {
