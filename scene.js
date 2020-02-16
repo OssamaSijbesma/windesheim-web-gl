@@ -208,6 +208,36 @@ var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
 balcony.position.set(135, 50, 0);
 scene.add(balcony);
 
+// Roofsides
+let triangle = new THREE.Geometry();
+triangle.vertices.push(new THREE.Vector3(0, 0, 0));
+triangle.vertices.push(new THREE.Vector3(80, 0, 0));
+triangle.vertices.push(new THREE.Vector3(40, 25, 0));
+triangle.faces.push(new THREE.Face3(0, 2, 1));
+triangle.computeFaceNormals();
+
+let roofWallMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let roofWall = new THREE.Mesh(triangle, roofWallMaterial);
+
+let roofWall1 = roofWall.clone();
+roofWall1.position.set(230, 80, 125);
+roofWall1.rotation.y = Math.PI;
+scene.add(roofWall1);
+
+let roofWall2 = roofWall.clone();
+roofWall2.position.set(150, 80, -125);
+scene.add(roofWall2);
+
+let roofWall3 = roofWall.clone();
+roofWall3.position.set(-110, 80, 125);
+roofWall3.rotation.y = Math.PI;
+scene.add(roofWall3);
+
+let roofWall4 = roofWall.clone();
+roofWall4.position.set(-190, 80, -125);
+scene.add(roofWall4);
+
+
 function createPillars(x, zMin, zMax){
 	var materialPillar = new THREE.MeshBasicMaterial( {color: 0xfefce2} );
 	var pillar = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 46, 32 ), materialPillar);
