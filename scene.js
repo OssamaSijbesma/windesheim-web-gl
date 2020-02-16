@@ -116,7 +116,6 @@ createCurbSmall(80, 0, 80, 280, true);
 createCurbSmall(-40, 0, 200, 40, true);
 createCurbSmall(20, 0, -60, 120, false);
 createCurbSmall(20, 0, 220, 120, false);
-
 createCurbSmall(120, 0, 40, 440, true);
 createCurbSmall(-80, 0, 40, 440, true);
 
@@ -178,14 +177,30 @@ createSidewalk(-60, 0, 240, 200, 40);
 
 /*___ Houses ___*/
 
-var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
-house.position.set(-150, 40, 0);
-scene.add(house);
+let houseGeometry = new THREE.BoxGeometry(80, 80, 250)
+let houseMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let house = new THREE.Mesh(houseGeometry, houseMaterial);
 
-var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
-balcony.position.set(-95, 50, 0);
-scene.add(balcony);
+let house1 = house.clone();
+house1.position.set(-150, 40, 0);
+scene.add(house1);
+
+let house2 = house.clone();
+house2.position.set(190, 40, 0);
+scene.add(house2);
+
+let balconyGeometry = new THREE.BoxGeometry(30, 10, 250);
+let balconyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let balcony = new THREE.Mesh(balconyGeometry , balconyMaterial);
+
+let balcony1= balcony.clone();
+balcony1.position.set(-95, 50, 0);
+scene.add(balcony1);
+
+let balcony2 = balcony.clone();
+balcony2.position.set(135, 50, 0);
+scene.add(balcony2);
+
 
 // Bush texture
 let textureBush = textureLoader.load("resources/bush.jpg");
@@ -199,14 +214,34 @@ let bush = new THREE.Mesh(bushGeometry, bushMaterial);
 bush.position.set(-84, 0, 0);
 scene.add(bush);
 
+// roof
+let roofGeometry = new THREE.PlaneBufferGeometry(47.1699, 250);
+let roofMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let roof = new THREE.Mesh(roofGeometry, roofMaterial);
 
-var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
-house.position.set(190, 40, 0);
-scene.add(house);
+let roof1 = roof.clone();
+roof1.position.set(-130, 92, 0);
+roof1.rotation.y = 0.585097;
+roof1.rotation.x = Math.PI / -2;
+scene.add(roof1);
 
-var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
-balcony.position.set(135, 50, 0);
-scene.add(balcony);
+let roof2 = roof.clone();
+roof2.position.set(-170, 92, 0);
+roof2.rotation.y = -0.585097;
+roof2.rotation.x = Math.PI / -2;
+scene.add(roof2);
+
+let roof3 = roof.clone();
+roof3.position.set(210, 92, 0);
+roof3.rotation.y = 0.585097;
+roof3.rotation.x = Math.PI / -2;
+scene.add(roof3);
+
+let roof4 = roof.clone();
+roof4.position.set(170, 92, 0);
+roof4.rotation.y = -0.585097;
+roof4.rotation.x = Math.PI / -2;
+scene.add(roof4);
 
 // Roofsides
 let triangle = new THREE.Geometry();
@@ -236,6 +271,22 @@ scene.add(roofWall3);
 let roofWall4 = roofWall.clone();
 roofWall4.position.set(-190, 80, -125);
 scene.add(roofWall4);
+
+// rooftop
+
+let roofTopGeometry = new THREE.CylinderGeometry(1, 1, 250, 32);
+let roofTopMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, shininess: 100 });
+let roofTop = new THREE.Mesh(roofTopGeometry, roofTopMaterial);
+
+let roofTop1 = roofTop.clone();
+roofTop1.rotation.x = -Math.PI/2;
+roofTop1.position.set(-150, 105, 0);
+scene.add(roofTop1);
+
+let roofTop2 = roofTop.clone();
+roofTop2.rotation.x = -Math.PI/2;
+roofTop2.position.set(190, 105, 0);
+scene.add(roofTop2);
 
 
 function createPillars(x, zMin, zMax){
