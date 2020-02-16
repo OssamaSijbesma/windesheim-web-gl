@@ -93,7 +93,7 @@ textureGrass.encoding = THREE.sRGBEncoding;
 
 // Lawn
 let lawnGeometry = new THREE.PlaneBufferGeometry(120, 280);
-let lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
+let lawnMaterial = new THREE.MeshLambertMaterial({ map: textureGrass });
 let lawn = new THREE.Mesh(lawnGeometry, lawnMaterial);
 lawn.receiveShadow = true;
 lawn.rotation.x = - Math.PI / 2;
@@ -178,35 +178,62 @@ createSidewalk(-60, 0, 240, 200, 40);
 
 /*___ Houses ___*/
 
-var material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
-house.position.set(-150, 40, 0);
-scene.add(house);
+function createHouse()
+{
+	// Bush texture
+	let textureBush = textureLoader.load("resources/bush.jpg");
+	textureBush.wrapS = THREE.RepeatWrapping;
+	textureBush.wrapT = THREE.RepeatWrapping;
+	textureBush.repeat.set(2,2);
 
-var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
-balcony.position.set(-95, 50, 0);
-scene.add(balcony);
+	let bushGeometry = new THREE.BoxGeometry(8, 12, 45);
+	let bushMaterial = new THREE.MeshBasicMaterial({ map: textureBush });
+	let bush = new THREE.Mesh(bushGeometry, bushMaterial);
+	bush.position.set(-84, 0, 30);
+	scene.add(bush);
 
-// Bush texture
-let textureBush = textureLoader.load("resources/bush.jpg");
-textureBush.wrapS = textureWoodChips.wrapT = THREE.RepeatWrapping;
-textureBush.repeat.set(4,4,4);
+	let floor1Geometry = new THREE.BoxGeometry(80, 36, 60);
+	let floor1material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+	let floor1 = new THREE.Mesh(floor1Geometry, floor1material);
+	floor1.position.set(-140, 18, 0);
+	scene.add(floor1);
 
-let bushGeometry = new THREE.BoxGeometry(8, 24, 250);
-let bushMaterial = new THREE.MeshBasicMaterial({ map: textureBush });
-let bush = new THREE.Mesh(bushGeometry, bushMaterial);
+	let balconyGeometry = new THREE.BoxGeometry(100, 6, 60);
+	let balconyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+	let balcony = new THREE.Mesh(balconyGeometry, balconyMaterial);
+	balcony.position.set(-130, 39, 0);
+	scene.add(balcony);
 
-bush.position.set(-84, 0, 0);
-scene.add(bush);
+	let floor2Geometry = new THREE.BoxGeometry(70, 24, 60);
+	let floor2material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+	let floor2 = new THREE.Mesh(floor2Geometry, floor2material);
+	floor2.position.set(-145, 54, 0);
+	scene.add(floor2);	
+
+	let triangle = new THREE.Geometry();
+	triangle.vertices.push(new THREE.Vector3(0, 0, 0));
+	triangle.vertices.push(new THREE.Vector3(70, 0, 0));
+	triangle.vertices.push(new THREE.Vector3(35, 25, 0));
+	triangle.faces.push(new THREE.Face3(0, 2, 1));
+	triangle.computeFaceNormals();
+
+	let roofWallMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+	let roofWall = new THREE.Mesh(triangle, roofWallMaterial);
+	roofWall
+	scene.add(roofWall);
+	
+
+}
+createHouse();
 
 
-var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
-house.position.set(190, 40, 0);
-scene.add(house);
+// var house = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), material);
+// house.position.set(190, 40, 0);
+// scene.add(house);
 
-var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
-balcony.position.set(135, 50, 0);
-scene.add(balcony);
+// var balcony = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), material);
+// balcony.position.set(135, 50, 0);
+// scene.add(balcony);
 
 function createPillars(x, zMin, zMax){
 	var materialPillar = new THREE.MeshBasicMaterial( {color: 0xfefce2} );
@@ -267,6 +294,7 @@ makeLamppost(-45, 25, 100);
 objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchObject )
 {
 	benchObject.scale.set(0.08, 0.08, 0.08);
+	benchObject.castShadow = true;
 
 	let bench1 = benchObject.clone();
 	bench1.position.set(45,0,160);
