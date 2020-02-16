@@ -219,6 +219,8 @@ for (let z = 105; z > -80; z-= 60) {
 	scene.add(bush2);
 }
 
+
+
 // roof
 let roofGeometry = new THREE.PlaneBufferGeometry(47.1699, 250);
 let roofMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
@@ -294,6 +296,13 @@ roofTop2.position.set(190, 105, 0);
 scene.add(roofTop2);
 
 
+
+let fenceGeometry = new THREE.PlaneBufferGeometry(24, 24);
+let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0xB0E8FF});
+let fenceModel = new THREE.Mesh(fenceGeometry, fenceMaterial);
+fenceModel.material.side = THREE.DoubleSide;
+fenceModel.rotation.z = Math.PI / 2;
+
 function createPillars(x, zMin, zMax){
 	var materialPillar = new THREE.MeshBasicMaterial( {color: 0xfefce2} );
 	var pillar = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 46, 32 ), materialPillar);
@@ -302,6 +311,11 @@ function createPillars(x, zMin, zMax){
 		var pillar = pillar.clone();
 		pillar.position.set(x, 23, z+z);
 		scene.add(pillar);
+
+		let fence = fenceModel.clone();
+		(x < 0) ? fence.position.set(x-13, 16, z+z) : fence.position.set(x+13, 16, z+z);
+		
+		scene.add(fence);
 	}
 }
 
