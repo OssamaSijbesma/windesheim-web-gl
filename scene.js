@@ -204,15 +204,20 @@ scene.add(balcony2);
 
 // Bush texture
 let textureBush = textureLoader.load("resources/bush.jpg");
-textureBush.wrapS = textureWoodChips.wrapT = THREE.RepeatWrapping;
-textureBush.repeat.set(4,4,4);
-
-let bushGeometry = new THREE.BoxGeometry(8, 24, 250);
+textureBush.wrapS = textureBush.wrapT = THREE.RepeatWrapping;
+textureBush.repeat.set(8,1);
+let bushGeometry = new THREE.BoxGeometry(8, 12, 45);
 let bushMaterial = new THREE.MeshBasicMaterial({ map: textureBush });
-let bush = new THREE.Mesh(bushGeometry, bushMaterial);
 
-bush.position.set(-84, 0, 0);
-scene.add(bush);
+for (let z = 105; z > -80; z-= 60) {
+	let bush = new THREE.Mesh(bushGeometry, bushMaterial);
+	bush.position.set(-84, 6, z);
+	scene.add(bush);
+
+	let bush2 = bush.clone();
+	bush2.position.set(125, 6, z);
+	scene.add(bush2);
+}
 
 // roof
 let roofGeometry = new THREE.PlaneBufferGeometry(47.1699, 250);
