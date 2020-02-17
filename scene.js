@@ -177,6 +177,7 @@ createSidewalk(-60, 0, 240, 200, 40);
 
 /*___ Houses ___*/
 
+// House
 let houseGeometry = new THREE.BoxGeometry(80, 80, 250)
 let houseMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
 let house = new THREE.Mesh(houseGeometry, houseMaterial);
@@ -189,17 +190,33 @@ let house2 = house.clone();
 house2.position.set(190, 40, 0);
 scene.add(house2);
 
+
+// Balcony
 let balconyGeometry = new THREE.BoxGeometry(30, 10, 250);
 let balconyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
 let balcony = new THREE.Mesh(balconyGeometry , balconyMaterial);
 
-let balcony1= balcony.clone();
+let balcony1 = balcony.clone();
 balcony1.position.set(-95, 50, 0);
 scene.add(balcony1);
 
 let balcony2 = balcony.clone();
 balcony2.position.set(135, 50, 0);
 scene.add(balcony2);
+
+
+// Doorstep
+let doorstepGeometry = new THREE.BoxGeometry(30, 2, 250);
+let doorstepMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let doorstep = new THREE.Mesh(doorstepGeometry , doorstepMaterial);
+
+let doorstep1 = doorstep.clone();
+doorstep1.position.set(-95, 1, 0);
+scene.add(doorstep1);
+
+let doorstep2 = doorstep.clone();
+doorstep2.position.set(135, 1, 0);
+scene.add(doorstep2);
 
 
 // Bush texture
@@ -215,10 +232,9 @@ for (let z = 105; z > -80; z-= 60) {
 	scene.add(bush);
 
 	let bush2 = bush.clone();
-	bush2.position.set(125, 6, z);
+	bush2.position.set(124, 6, z);
 	scene.add(bush2);
 }
-
 
 
 // roof
@@ -250,6 +266,7 @@ roof4.rotation.y = -0.585097;
 roof4.rotation.x = Math.PI / -2;
 scene.add(roof4);
 
+
 // Roofsides
 let triangle = new THREE.Geometry();
 triangle.vertices.push(new THREE.Vector3(0, 0, 0));
@@ -279,10 +296,10 @@ let roofWall4 = roofWall.clone();
 roofWall4.position.set(-190, 80, -125);
 scene.add(roofWall4);
 
-// rooftop
 
+// Rooftop
 let roofTopGeometry = new THREE.CylinderGeometry(1, 1, 250, 32);
-let roofTopMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, shininess: 100 });
+let roofTopMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 let roofTop = new THREE.Mesh(roofTopGeometry, roofTopMaterial);
 
 let roofTop1 = roofTop.clone();
@@ -295,10 +312,23 @@ roofTop2.rotation.x = -Math.PI/2;
 roofTop2.position.set(190, 105, 0);
 scene.add(roofTop2);
 
+// Chimney
+function createChimney(x, zMin, zMax){
+	var chimneyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+	var chimney = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 10), chimneyMaterial);
+
+	for (let z = zMin; z < zMax; z+=20) {
+		var chimney = chimney.clone();
+		chimney.position.set(x, 105, z+z);
+		scene.add(chimney);
+	}
+}
+createChimney(-150, -60, 70);
+createChimney(190, -60, 70);
 
 
-let fenceGeometry = new THREE.PlaneBufferGeometry(24, 24);
-let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0xB0E8FF});
+let fenceGeometry = new THREE.PlaneBufferGeometry(28, 24);
+let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
 let fenceModel = new THREE.Mesh(fenceGeometry, fenceMaterial);
 fenceModel.material.side = THREE.DoubleSide;
 fenceModel.rotation.z = Math.PI / 2;
@@ -318,7 +348,6 @@ function createPillars(x, zMin, zMax){
 		scene.add(fence);
 	}
 }
-
 createPillars(-85, -60, 75);
 createPillars(125, -60, 75);
 
@@ -353,7 +382,6 @@ function makeLamppost(x, y, z){
 	lampshade.position.set(x, 53, z);
 	scene.add(lampshade);
 }
-
 makeLamppost(-45, 25, -60);
 makeLamppost(85, 25, 20);
 makeLamppost(-45, 25, 100);
