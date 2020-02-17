@@ -177,9 +177,13 @@ createSidewalk(-60, 0, 240, 200, 40);
 
 /*___ Houses ___*/
 
+let textureWood = textureLoader.load( "resources/wood.jpg" );
+textureWood.wrapS = textureWood.wrapT = THREE.RepeatWrapping;
+textureWood.repeat.set(4,4);
+
 // House
 let houseGeometry = new THREE.BoxGeometry(80, 80, 250)
-let houseMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let houseMaterial = new THREE.MeshBasicMaterial({ map: textureWood });
 let house = new THREE.Mesh(houseGeometry, houseMaterial);
 
 let house1 = house.clone();
@@ -193,7 +197,7 @@ scene.add(house2);
 
 // Balcony
 let balconyGeometry = new THREE.BoxGeometry(30, 10, 250);
-let balconyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let balconyMaterial = new THREE.MeshBasicMaterial({ map: textureWood });
 let balcony = new THREE.Mesh(balconyGeometry , balconyMaterial);
 
 let balcony1 = balcony.clone();
@@ -206,8 +210,12 @@ scene.add(balcony2);
 
 
 // Doorstep
+let textureDoorstep = textureLoader.load("resources/floor.jpg");
+textureDoorstep.wrapS = textureDoorstep.wrapT = THREE.RepeatWrapping;
+textureDoorstep.repeat.set(4, 8);
+
 let doorstepGeometry = new THREE.BoxGeometry(30, 2, 250);
-let doorstepMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let doorstepMaterial = new THREE.MeshPhongMaterial({ map: textureDoorstep });
 let doorstep = new THREE.Mesh(doorstepGeometry , doorstepMaterial);
 
 let doorstep1 = doorstep.clone();
@@ -238,8 +246,13 @@ for (let z = 105; z > -80; z-= 60) {
 
 
 // roof
+let textureRoof = textureLoader.load( "resources/roof.jpg" );
+textureRoof.wrapS = textureRoof.wrapT = THREE.RepeatWrapping;
+textureRoof.repeat.set(2,2);
+textureRoof.rotation = Math.PI /2;
+
 let roofGeometry = new THREE.PlaneBufferGeometry(47.1699, 250);
-let roofMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let roofMaterial = new THREE.MeshPhongMaterial({ map: textureRoof });
 let roof = new THREE.Mesh(roofGeometry, roofMaterial);
 
 let roof1 = roof.clone();
