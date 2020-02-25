@@ -240,11 +240,11 @@ let bushMaterial = new THREE.MeshBasicMaterial({ map: textureBush });
 
 for (let z = 105; z > -80; z-= 60) {
 	let bush = new THREE.Mesh(bushGeometry, bushMaterial);
-	bush.position.set(-84, 6, z);
+	bush.position.set(-84, 8, z);
 	scene.add(bush);
 
 	let bush2 = bush.clone();
-	bush2.position.set(124, 6, z);
+	bush2.position.set(124, 8, z);
 	scene.add(bush2);
 }
 
@@ -431,6 +431,18 @@ objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchOb
 	bench4.position.set(20,0,185);
 	scene.add(bench4);
 });
+
+// Football
+let footballGeometry = new THREE.SphereGeometry(2, 24, 24);
+let footballMaterial = new THREE.MeshPhongMaterial();
+footballMaterial.color.set(0xffffff);
+footballMaterial.map = THREE.ImageUtils.loadTexture("resources/football.jpg");
+
+let football = new THREE.Mesh(footballGeometry, footballMaterial);
+football.position.set(0,2,0);
+football.rotation.y = -Math.PI/2;
+football.castShadow = true;
+scene.add(football);
 
 /*___ Render Page ___*/
 var render = function(){
