@@ -446,10 +446,30 @@ let football = new THREE.Mesh(footballGeometry, footballMaterial);
 football.position.set(0,2,0);
 football.rotation.y = -Math.PI/2;
 football.castShadow = true;
+let isBalling = true;
 scene.add(football);
 
 /*___ Render Page ___*/
 var render = function(){
+
+
+	if (isBalling)
+	{
+		football.position.z += 0.5;
+		football.rotation.x += 0.1;	
+	} else
+	{
+		football.position.z -= 0.5;
+		football.rotation.x -= 0.1;
+	}
+
+	if (football.position.z > 20)
+		isBalling = false;
+
+	if (football.position.z < -20)
+		isBalling = true;
+	
+
 	renderer.render(scene, camera);
 	controls.update();
 	requestAnimationFrame(render);  
