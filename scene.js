@@ -430,11 +430,15 @@ objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchOb
 });
 
 // Football
-let footballGeometry = new THREE.SphereGeometry(3, 24, 24);
-let footballMaterial = new THREE.MeshBasicMaterial();
+let footballGeometry = new THREE.SphereGeometry(2, 24, 24);
+let footballMaterial = new THREE.MeshPhongMaterial();
 footballMaterial.color.set(0xffffff);
+footballMaterial.map = THREE.ImageUtils.loadTexture("resources/football.jpg");
+
 let football = new THREE.Mesh(footballGeometry, footballMaterial);
-football.position.set(0,10,0);
+football.position.set(0,2,0);
+football.rotation.y = -Math.PI/2;
+football.castShadow = true;
 scene.add(football);
 
 /*___ Render Page ___*/
