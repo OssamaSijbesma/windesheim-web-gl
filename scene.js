@@ -198,7 +198,6 @@ let house2 = house.clone();
 house2.position.set(190, 40, 0);
 scene.add(house2);
 
-
 // Balcony
 let balconyGeometry = new THREE.BoxGeometry(30, 10, 250);
 let balconyMaterial = new THREE.MeshBasicMaterial({ map: textureWood });
@@ -211,7 +210,6 @@ scene.add(balcony1);
 let balcony2 = balcony.clone();
 balcony2.position.set(135, 50, 0);
 scene.add(balcony2);
-
 
 // Doorstep
 let textureDoorstep = textureLoader.load("resources/floor.jpg");
@@ -345,6 +343,26 @@ function createChimney(x, zMin, zMax){
 createChimney(-150, -60, 70);
 createChimney(190, -60, 70);
 
+// windows
+let windowGeometry = new THREE.PlaneBufferGeometry(28, 16);
+let windowMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
+windowMaterial.map = THREE.ImageUtils.loadTexture("resources/glass.png");
+let windowModel = new THREE.Mesh(windowGeometry, windowMaterial);
+windowModel.material.side = THREE.DoubleSide;
+windowModel.rotation.y = Math.PI / 2;
+
+function createWindows(x, zMin, zMax){
+
+
+	for (let z = zMin; z < zMax; z+=20) {
+		let window =  windowModel.clone();
+		window.position.set(x, 68, z+z);
+		scene.add(window);
+	}
+}
+
+createWindows(-109.5, -50, 60);
+createWindows(149.5, -50, 60);
 
 let fenceGeometry = new THREE.PlaneBufferGeometry(28, 24);
 let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
@@ -352,12 +370,15 @@ let fenceModel = new THREE.Mesh(fenceGeometry, fenceMaterial);
 fenceModel.material.side = THREE.DoubleSide;
 fenceModel.rotation.z = Math.PI / 2;
 
-function createPillars(x, zMin, zMax){
-	var materialPillar = new THREE.MeshBasicMaterial( {color: 0xfefce2} );
-	var pillar = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 46, 32 ), materialPillar);
+let pillarGeometry = new THREE.CylinderGeometry( 1, 1, 46, 32 );
+let pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xfefce2} );
+let pillarModel = new THREE.Mesh(pillarGeometry, pillarMaterial);
+
+function createPillarsAndFence(x, zMin, zMax){
+
 
 	for (let z = zMin; z < zMax; z+=15) {
-		var pillar = pillar.clone();
+		let pillar = pillarModel.clone();
 		pillar.position.set(x, 23, z+z);
 		scene.add(pillar);
 
@@ -367,8 +388,9 @@ function createPillars(x, zMin, zMax){
 		scene.add(fence);
 	}
 }
-createPillars(-85, -60, 75);
-createPillars(125, -60, 75);
+
+createPillarsAndFence(-85, -60, 75);
+createPillarsAndFence(125, -60, 75);
 
 
 /*___ Decoration ___*/
@@ -469,7 +491,7 @@ scene.add(football);
 /*___ Render Page ___*/
 var render = function(){
 
-
+	// Football animation
 	if (isBalling)
 	{
 		football.position.z += 0.5;
