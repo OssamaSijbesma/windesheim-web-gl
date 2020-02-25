@@ -8,6 +8,7 @@ let scene = new THREE.Scene();
 
 // Create renderer
 let renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.shadowMapEnabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -50,6 +51,9 @@ scene.add(hemisphereLight);
 
 // Directional light: A light that gets emitted in a specific direction.
 var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(0, 100, -350);
+directionalLight.castShadow = true;
+directionalLight.shadowDarkness = 1;
 scene.add(directionalLight);
 
 /*___ Floor ___*/
@@ -157,7 +161,7 @@ function createSidewalk(xi, y, zi, width, height)
 	//textureSidewalk.repeat.set(255/width, 255/height);
 	textureSidewalk.wrapS = textureSidewalk.wrapT  = THREE.RepeatWrapping;
 	let sidewalkGeometry = new THREE.PlaneBufferGeometry(40, 40);
-	let sidewalkMaterial = new THREE.MeshBasicMaterial({ map: textureSidewalk });
+	let sidewalkMaterial = new THREE.MeshPhongMaterial({ map: textureSidewalk });
 	let sidewalk = new THREE.Mesh(sidewalkGeometry, sidewalkMaterial);
 	sidewalk.rotation.x = - Math.PI / 2;
 
@@ -378,10 +382,10 @@ objectLoader.load("resources/models/chicken/minecraft-chicken.json", function ( 
 
 // Trees?
 
-// Lamppost without light comming from it
+// Lamppost with light coming from it
 function makeLamppost(x, y, z){
-	var materialBordeaux = new THREE.MeshBasicMaterial( {color: 0x5A2323} );
-	var materialLamp = new THREE.MeshBasicMaterial({ color: 0x9C9B95})
+	var materialBordeaux = new THREE.MeshPhongMaterial( {color: 0x5A2323, shininess: 50} );
+	var materialLamp = new THREE.MeshPhongMaterial({ color: 0x9C9B95, shininess: 40 });
 	
 	var pole = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 50, 32 ), materialBordeaux);
 	pole.position.set(x, y, z);
@@ -394,15 +398,14 @@ function makeLamppost(x, y, z){
 	var lampshade = new THREE.Mesh(new THREE.CylinderGeometry(1, 5, 1, 32), materialBordeaux);
 	lampshade.position.set(x, 53, z);
 	scene.add(lampshade);
+
+	var light = new THREE.PointLight( 0xffff00, 1, 100 );
+	light.position.set(x, 52, z);
+	scene.add( light );
 }
 makeLamppost(-45, 25, -60);
 makeLamppost(85, 25, 20);
 makeLamppost(-45, 25, 100);
-
-// Point light: A light that gets emitted from a single point in all directions. A common use case for this is to replicate the light emitted from a bare lightbulb.
-// var light = new THREE.PointLight( 0xff0000, 1, 100 );
-// light.position.set( 200, 200, 200 );
-// scene.add( light );
 
 // Benches
 objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchObject )
