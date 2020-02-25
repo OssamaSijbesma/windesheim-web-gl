@@ -436,6 +436,23 @@ objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchOb
 	scene.add(bench4);
 });
 
+// Benches
+objectLoader.load("resources/models/dog/marching-dog.json", function ( dogObject )
+{
+	dogObject.scale.set(200, 200,200);
+	dogObject.castShadow = true;
+
+	let dog1 = dogObject.clone();
+	dog1.position.set(0,0,28);
+	dog1.rotateY(150);
+	scene.add(dog1);
+
+	let dog2 = dogObject.clone();
+	dog2.position.set(0,0,-28);
+	dog2.rotateY(-450);
+	scene.add(dog2);
+});
+
 // Football
 let footballGeometry = new THREE.SphereGeometry(2, 24, 24);
 let footballMaterial = new THREE.MeshPhongMaterial();
