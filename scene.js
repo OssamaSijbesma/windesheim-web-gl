@@ -439,7 +439,7 @@ objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchOb
 // Benches
 objectLoader.load("resources/models/dog/marching-dog.json", function ( dogObject )
 {
-	dogObject.scale.set(200, 200,200);
+	dogObject.scale.set(250, 250, 250);
 	dogObject.castShadow = true;
 
 	let dog1 = dogObject.clone();
