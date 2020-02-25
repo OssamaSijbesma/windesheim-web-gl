@@ -316,7 +316,7 @@ scene.add(roofWall4);
 
 // Rooftop
 let roofTopGeometry = new THREE.CylinderGeometry(1, 1, 250, 32);
-let roofTopMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+let roofTopMaterial = new THREE.MeshBasicMaterial({ color: 0x291405 });
 let roofTop = new THREE.Mesh(roofTopGeometry, roofTopMaterial);
 
 let roofTop1 = roofTop.clone();
@@ -332,7 +332,9 @@ scene.add(roofTop2);
 // Chimney
 function createChimney(x, zMin, zMax){
 	var chimneyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-	var chimney = new THREE.Mesh(new THREE.BoxGeometry(20, 20, 10), chimneyMaterial);
+	chimneyMaterial.map = THREE.ImageUtils.loadTexture("resources/bricks.jpg");
+
+	var chimney = new THREE.Mesh(new THREE.BoxGeometry(16, 20, 9), chimneyMaterial);
 
 	for (let z = zMin; z < zMax; z+=20) {
 		var chimney = chimney.clone();
@@ -393,6 +395,7 @@ function makeLamppost(x, y, z){
 	
 	var lamp = new THREE.Mesh(new THREE.CylinderGeometry(2, 1, 5, 32), materialLamp);
 	lamp.position.set(x, 50, z);
+	lamp.shininess = 1000;
 	scene.add(lamp);
 	
 	var lampshade = new THREE.Mesh(new THREE.CylinderGeometry(1, 5, 1, 32), materialBordeaux);
@@ -411,6 +414,7 @@ makeLamppost(-45, 25, 100);
 objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchObject )
 {
 	benchObject.scale.set(0.08, 0.08, 0.08);
+	benchObject.castShadow = true;
 
 	let bench1 = benchObject.clone();
 	bench1.position.set(45,0,160);
