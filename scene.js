@@ -16,36 +16,40 @@
 
 /*___ 1. General ___*/
 
-// Create scene
+// Create scene.
 let scene = new THREE.Scene();
 
-// Create renderer
+// Create renderer.
 let renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.shadowMapEnabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMapEnabled = true;
+
+// Add renderer to the document.
 document.body.appendChild(renderer.domElement);
 
-// loaders
+// initialize loaders.
 let objectLoader = new THREE.ObjectLoader();
 let textureLoader = new THREE.TextureLoader();
 
 
 
 /*___ Camera ___*/
+// For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
 
 // Perspective camera to mimic the way the human eye sees.
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
-// Start position of the camera
+// Start position of the camera.
 camera.position.x = -2;
 camera.position.y = 44;
 camera.position.z = -115;
 
+// Enable Orbit Controls.
 let controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableRotate = true;
 controls.enableZoom = false;
 
-// Legacy controls
+// Legacy controls.
 controls.keys = {
 	LEFT: 188,
 	UP: 33,
@@ -53,14 +57,14 @@ controls.keys = {
 	BOTTOM: 34
 }
 
-//Camera movement through the arrow keys
+// Arrow key is pressed.
 let ArrowUp = false;
 let ArrowDown = false;
 let ArrowLeft = false;
 let ArrowRight = false;
 
-camera.rotation.y = 180 * Math.PI / 180;
 
+// Event listener to see if a key is pressed down.
 document.addEventListener('keydown', function(event) {
 	switch(event.code){
 		case 'ArrowUp': ArrowUp = true; break
@@ -70,6 +74,7 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
+// Event listener to see if a key is released.
 document.addEventListener('keyup', function(event) {
 	switch(event.code){
 		case 'ArrowUp': ArrowUp = false; break
@@ -79,22 +84,7 @@ document.addEventListener('keyup', function(event) {
 	}
 });
 
-var panFront = function() {
-
-    let v = new THREE.Vector3();
-
-    return function panFront( distance, objectMatrix ) {
-
-        v.setFromMatrixColumn( objectMatrix, 2 ); // get Z column of objectMatrix
-        v.y = 0;
-
-        v.multiplyScalar( -distance );
-
-        panOffset.add( v );
-    };
-
-}();
-
+// Update the position of the camera with the orbit controls functions.
 function updatePosition(){
 	if (ArrowUp) controls.panForward(1);
 	if (ArrowDown) controls.panForward(-1);
@@ -110,9 +100,8 @@ function updatePosition(){
 	controls.update();
 }
 
- this.interval = setInterval(updatePosition, 10);
-
-// For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
+// Call the update with an interval.
+this.interval = setInterval(updatePosition, 10);
 
 
 
