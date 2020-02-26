@@ -577,7 +577,6 @@ var render = function(){
 
 	if (football.position.z < -20)
 		isBalling = true;
-	
 
 	renderer.render(scene, camera);
 	controls.update();
