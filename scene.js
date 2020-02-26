@@ -501,24 +501,28 @@ objectLoader.load("resources/models/chicken/minecraft-chicken.json", function ( 
 	scene.add(chickenObject);
 });
 
-// Lampposts with light coming from it
+// Lampposts with light coming from it.
 function makeLamppost(x, y, z){
 	var materialBordeaux = new THREE.MeshPhongMaterial( {color: 0x5A2323, shininess: 50} );
 	var materialLamp = new THREE.MeshPhongMaterial({ color: 0x9C9B95, shininess: 40 });
 	
+	// Create the bordeaux pole.
 	var pole = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 50, 32 ), materialBordeaux);
 	pole.position.set(x, y, z);
 	scene.add(pole);
 	
+	// Create the lamp.
 	var lamp = new THREE.Mesh(new THREE.CylinderGeometry(2, 1, 5, 32), materialLamp);
 	lamp.position.set(x, 50, z);
 	lamp.shininess = 1000;
 	scene.add(lamp);
 	
+	// Create the lampshade.
 	var lampshade = new THREE.Mesh(new THREE.CylinderGeometry(1, 5, 1, 32), materialBordeaux);
 	lampshade.position.set(x, 53, z);
 	scene.add(lampshade);
 
+	// Create the light coming from around the lamp spot.
 	var light = new THREE.PointLight( 0xffff00, 1, 100 );
 	light.position.set(x, 52, z);
 	scene.add( light );
