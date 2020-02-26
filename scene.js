@@ -357,7 +357,6 @@ windowModel.rotation.y = Math.PI / 2;
 
 function createWindows(x, zMin, zMax){
 
-
 	for (let z = zMin; z < zMax; z+=20) {
 		let window =  windowModel.clone();
 		window.position.set(x, 68, z+z);
@@ -367,6 +366,26 @@ function createWindows(x, zMin, zMax){
 
 createWindows(-109.5, -50, 60);
 createWindows(149.5, -50, 60);
+
+// frontdoors
+let doorGeometry = new THREE.PlaneBufferGeometry(16, 36);
+let doorMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
+doorMaterial.map = THREE.ImageUtils.loadTexture("resources/door.jpg");
+let doorModel = new THREE.Mesh(doorGeometry, doorMaterial);
+doorModel.material.side = THREE.DoubleSide;
+doorModel.rotation.y = Math.PI / 2;
+
+function createDoors(x, zMin, zMax){
+	
+	for (let z = zMin; z < zMax; z+=30) {
+		let door =  doorModel.clone();
+		door.position.set(x, 20, z+z);
+		scene.add(door);
+	}
+}
+
+createDoors(-109.5, -52, 58);
+createDoors(149.5, -52, 58);
 
 let fenceGeometry = new THREE.PlaneBufferGeometry(28, 24);
 let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
