@@ -28,6 +28,76 @@ camera.position.z = -115;
 
 let controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableRotate = true;
+controls.enableZoom = false;
+
+controls.keys = {
+	LEFT: 37, //left arrow
+	UP: 33, // up arrow
+	RIGHT: 39, // right arrow
+	BOTTOM: 34 // down arrow
+}
+
+// // Camera movement through the arrow keys
+let ArrowUp = false;
+let ArrowDown = false;
+// let ArrowLeft = false;
+// let ArrowRight = false;
+camera.rotation.y = 180 * Math.PI / 180;
+document.addEventListener('keydown', function(event) {
+	switch(event.code){
+		case 'ArrowUp': ArrowUp = true; break
+		case 'ArrowDown': ArrowDown = true; break
+		//case 'ArrowLeft': ArrowLeft = true; break
+		//case 'ArrowRight': ArrowRight = true; break
+	}
+});
+
+document.addEventListener('keyup', function(event) {
+	switch(event.code){
+		case 'ArrowUp': ArrowUp = false; break
+		case 'ArrowDown': ArrowDown = false; break
+		//case 'ArrowLeft': ArrowLeft = false; break
+		//case 'ArrowRight': ArrowRight = false; break
+	}
+});
+
+var panFront = function() {
+
+    let v = new THREE.Vector3();
+
+    return function panFront( distance, objectMatrix ) {
+
+        v.setFromMatrixColumn( objectMatrix, 2 ); // get Z column of objectMatrix
+        v.y = 0;
+
+        v.multiplyScalar( -distance );
+
+        panOffset.add( v );
+    };
+
+}();
+
+function updatePosition(){
+	if (ArrowUp) 
+	{ 
+		controls.panForward(1);
+		controls.target.setY(30);
+		camera.position.y = 30;
+		controls.update();
+	};
+	if (ArrowDown)
+	{
+		console.log(controls.target);
+
+		controls.panForward(-1);
+		controls.target.setY(30);
+		camera.position.y = 30;
+		controls.update();
+		//camera.position.z -= 0.5;
+	};
+}
+
+ this.interval = setInterval(updatePosition, 10);
 
 // For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
 
