@@ -277,66 +277,63 @@ textureWood.wrapS = textureWood.wrapT = THREE.RepeatWrapping;
 textureWood.repeat.set(4,4);
 
 // House
-let houseGeometry = new THREE.BoxGeometry(80, 80, 250)
 let houseMaterial = new THREE.MeshBasicMaterial({ map: textureWood });
-let house = new THREE.Mesh(houseGeometry, houseMaterial);
+let houseModel = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), houseMaterial);
 
-let house1 = house.clone();
-house1.position.set(-150, 40, 0);
-scene.add(house1);
-
-let house2 = house.clone();
-house2.position.set(190, 40, 0);
-scene.add(house2);
+function createHouse(x){
+	let house = houseModel.clone();
+	house.position.set(x, 40, 0);
+	scene.add(house);
+}
+createHouse(-150);
+createHouse(190);
 
 // Balcony
-let balconyGeometry = new THREE.BoxGeometry(30, 10, 250);
 let balconyMaterial = new THREE.MeshBasicMaterial({ map: textureWood });
-let balcony = new THREE.Mesh(balconyGeometry , balconyMaterial);
+let balconyModel = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), balconyMaterial);
 
-let balcony1 = balcony.clone();
-balcony1.position.set(-95, 50, 0);
-scene.add(balcony1);
-
-let balcony2 = balcony.clone();
-balcony2.position.set(135, 50, 0);
-scene.add(balcony2);
+function createBalcony(x){
+	let balcony = balconyModel.clone();
+	balcony.position.set(x, 50, 0);
+	scene.add(balcony);
+}
+createBalcony(-95);
+createBalcony(135);
 
 // Doorstep
 let textureDoorstep = textureLoader.load("resources/floor.jpg");
 textureDoorstep.wrapS = textureDoorstep.wrapT = THREE.RepeatWrapping;
 textureDoorstep.repeat.set(4, 8);
 
-let doorstepGeometry = new THREE.BoxGeometry(30, 2, 250);
 let doorstepMaterial = new THREE.MeshPhongMaterial({ map: textureDoorstep });
-let doorstep = new THREE.Mesh(doorstepGeometry , doorstepMaterial);
+let doorstepModel = new THREE.Mesh(new THREE.BoxGeometry(30, 2, 250) , doorstepMaterial);
 
-let doorstep1 = doorstep.clone();
-doorstep1.position.set(-95, 1, 0);
-scene.add(doorstep1);
+function createDoorstep(x){
+	let doorstep = doorstepModel.clone();
+	doorstep.position.set(x, 1, 0);
+	scene.add(doorstep);
+}
+createDoorstep(-95);
+createDoorstep(135);
 
-let doorstep2 = doorstep.clone();
-doorstep2.position.set(135, 1, 0);
-scene.add(doorstep2);
-
-// Bush texture
+// Bush 
 let textureBush = textureLoader.load("resources/bush.jpg");
 textureBush.wrapS = textureBush.wrapT = THREE.RepeatWrapping;
 textureBush.repeat.set(8,1);
-let bushGeometry = new THREE.BoxGeometry(8, 12, 45);
 let bushMaterial = new THREE.MeshBasicMaterial({ map: textureBush });
+let bush = new THREE.Mesh(new THREE.BoxGeometry(8, 12, 45), bushMaterial);
 
 for (let z = 105; z > -80; z-= 60) {
-	let bush = new THREE.Mesh(bushGeometry, bushMaterial);
-	bush.position.set(-84, 8, z);
-	scene.add(bush);
+	let bush1 = bush.clone();
+	bush1.position.set(-84, 8, z);
+	scene.add(bush1);
 
 	let bush2 = bush.clone();
 	bush2.position.set(124, 8, z);
 	scene.add(bush2);
 }
 
-// roof
+// Roof
 let textureRoof = textureLoader.load( "resources/roof.jpg" );
 textureRoof.wrapS = textureRoof.wrapT = THREE.RepeatWrapping;
 textureRoof.repeat.set(2,2);
@@ -378,51 +375,45 @@ triangle.vertices.push(new THREE.Vector3(40, 25, 0));
 triangle.faces.push(new THREE.Face3(0, 2, 1));
 triangle.computeFaceNormals();
 
-let roofWallMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-let roofWall = new THREE.Mesh(triangle, roofWallMaterial);
+let roofsideMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
+let roofsideModel = new THREE.Mesh(triangle, roofsideMaterial);
 
-let roofWall1 = roofWall.clone();
-roofWall1.position.set(230, 80, 125);
-roofWall1.rotation.y = Math.PI;
-scene.add(roofWall1);
+function createRoofside(x, z, rotateY){
+	let roofside = roofsideModel.clone();
+	roofside.position.set(x, 80, z);
 
-let roofWall2 = roofWall.clone();
-roofWall2.position.set(150, 80, -125);
-scene.add(roofWall2);
+	if (rotateY)
+		roofside.rotation.y = Math.PI;
 
-let roofWall3 = roofWall.clone();
-roofWall3.position.set(-110, 80, 125);
-roofWall3.rotation.y = Math.PI;
-scene.add(roofWall3);
-
-let roofWall4 = roofWall.clone();
-roofWall4.position.set(-190, 80, -125);
-scene.add(roofWall4);
+	scene.add(roofside);
+}
+createRoofside(230, 125, true);
+createRoofside(150, -125, false);
+createRoofside(-110, 125, true);
+createRoofside(-190, -125, false);
 
 // Rooftop
-let roofTopGeometry = new THREE.CylinderGeometry(1, 1, 250, 32);
 let roofTopMaterial = new THREE.MeshBasicMaterial({ color: 0x291405 });
-let roofTop = new THREE.Mesh(roofTopGeometry, roofTopMaterial);
+let roofTopModel = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 250, 32), roofTopMaterial);
 
-let roofTop1 = roofTop.clone();
-roofTop1.rotation.x = -Math.PI/2;
-roofTop1.position.set(-150, 105, 0);
-scene.add(roofTop1);
+function createRooftop(x){
+	let roofTop = roofTopModel.clone();
+	roofTop.rotation.x = -Math.PI/2;
+	roofTop.position.set(x, 105, 0);
+	scene.add(roofTop);
+}
+createRooftop(-150);
+createRooftop(190);
 
-let roofTop2 = roofTop.clone();
-roofTop2.rotation.x = -Math.PI/2;
-roofTop2.position.set(190, 105, 0);
-scene.add(roofTop2);
+// Chimneys
+let chimneyTexture = textureLoader.load("resources/bricks.jpg");
+let chimneyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100, map: chimneyTexture });
+let chimneyModel = new THREE.Mesh(new THREE.BoxGeometry(16, 20, 9), chimneyMaterial);
 
-// Chimney
 function createChimney(x, zMin, zMax){
-	var chimneyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100 });
-	chimneyMaterial.map = THREE.ImageUtils.loadTexture("resources/bricks.jpg");
-
-	var chimney = new THREE.Mesh(new THREE.BoxGeometry(16, 20, 9), chimneyMaterial);
-
+	
 	for (let z = zMin; z < zMax; z+=20) {
-		var chimney = chimney.clone();
+		let chimney = chimneyModel.clone();
 		chimney.position.set(x, 105, z+z);
 		scene.add(chimney);
 	}
@@ -431,10 +422,9 @@ createChimney(-150, -60, 70);
 createChimney(190, -60, 70);
 
 // windows
-let windowGeometry = new THREE.PlaneBufferGeometry(28, 16);
-let windowMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
-windowMaterial.map = THREE.ImageUtils.loadTexture("resources/glass.png");
-let windowModel = new THREE.Mesh(windowGeometry, windowMaterial);
+let windowTexture = textureLoader.load("resources/glass.png");
+let windowMaterial = new THREE.MeshBasicMaterial({ color: 0x889993, map: windowTexture });
+let windowModel = new THREE.Mesh(new THREE.PlaneBufferGeometry(28, 16), windowMaterial);
 windowModel.material.side = THREE.DoubleSide;
 windowModel.rotation.y = Math.PI / 2;
 
@@ -450,11 +440,10 @@ function createWindows(x, zMin, zMax){
 createWindows(-109.5, -50, 60);
 createWindows(149.5, -50, 60);
 
-// frontdoors
-let doorGeometry = new THREE.PlaneBufferGeometry(16, 36);
-let doorMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
-doorMaterial.map = THREE.ImageUtils.loadTexture("resources/door.jpg");
-let doorModel = new THREE.Mesh(doorGeometry, doorMaterial);
+// Create frontdoors
+let doorTexture = textureLoader.load("resources/door.jpg");
+let doorMaterial = new THREE.MeshBasicMaterial({ color: 0x889993, map: doorTexture });
+let doorModel = new THREE.Mesh(new THREE.PlaneBufferGeometry(16, 36), doorMaterial);
 doorModel.material.side = THREE.DoubleSide;
 doorModel.rotation.y = Math.PI / 2;
 
@@ -466,22 +455,19 @@ function createDoors(x, zMin, zMax){
 		scene.add(door);
 	}
 }
-
 createDoors(-109.5, -52, 58);
 createDoors(149.5, -52, 58);
 
-let fenceGeometry = new THREE.PlaneBufferGeometry(28, 24);
+// Create pillars and fences for the houses
 let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
-let fenceModel = new THREE.Mesh(fenceGeometry, fenceMaterial);
+let fenceModel = new THREE.Mesh(new THREE.PlaneBufferGeometry(28, 24), fenceMaterial);
 fenceModel.material.side = THREE.DoubleSide;
 fenceModel.rotation.z = Math.PI / 2;
 
-let pillarGeometry = new THREE.CylinderGeometry( 1, 1, 46, 32 );
 let pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xfefce2} );
-let pillarModel = new THREE.Mesh(pillarGeometry, pillarMaterial);
+let pillarModel = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 46, 32 ), pillarMaterial);
 
 function createPillarsAndFence(x, zMin, zMax){
-
 
 	for (let z = zMin; z < zMax; z+=15) {
 		let pillar = pillarModel.clone();
@@ -494,7 +480,6 @@ function createPillarsAndFence(x, zMin, zMax){
 		scene.add(fence);
 	}
 }
-
 createPillarsAndFence(-85, -60, 75);
 createPillarsAndFence(125, -60, 75);
 
@@ -511,9 +496,7 @@ objectLoader.load("resources/models/chicken/minecraft-chicken.json", function ( 
 	scene.add(chickenObject);
 });
 
-// Trees?
-
-// Lamppost with light coming from it
+// Lampposts with light coming from it
 function makeLamppost(x, y, z){
 	var materialBordeaux = new THREE.MeshPhongMaterial( {color: 0x5A2323, shininess: 50} );
 	var materialLamp = new THREE.MeshPhongMaterial({ color: 0x9C9B95, shininess: 40 });
@@ -565,7 +548,7 @@ objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchOb
 	scene.add(bench4);
 });
 
-// Benches
+// Dogs
 objectLoader.load("resources/models/dog/marching-dog.json", function ( dogObject )
 {
 	dogObject.scale.set(250, 250, 250);
@@ -583,12 +566,10 @@ objectLoader.load("resources/models/dog/marching-dog.json", function ( dogObject
 });
 
 // Football
-let footballGeometry = new THREE.SphereGeometry(2, 24, 24);
-let footballMaterial = new THREE.MeshPhongMaterial();
-footballMaterial.color.set(0xffffff);
-footballMaterial.map = THREE.ImageUtils.loadTexture("resources/football.jpg");
+let footballTexture = textureLoader.load("resources/football.jpg");
+let footballMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map: footballTexture });
+let football = new THREE.Mesh(new THREE.SphereGeometry(2, 24, 24), footballMaterial);
 
-let football = new THREE.Mesh(footballGeometry, footballMaterial);
 football.position.set(0,2,0);
 football.rotation.y = -Math.PI/2;
 football.castShadow = true;
@@ -605,7 +586,8 @@ var render = function(){
 	{
 		football.position.z += 0.5;
 		football.rotation.x += 0.1;	
-	} else
+	} 
+	else
 	{
 		football.position.z -= 0.5;
 		football.rotation.x -= 0.1;
