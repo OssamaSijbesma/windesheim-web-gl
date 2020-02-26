@@ -206,7 +206,7 @@ function createPlaygroundCurb(x, y, z, size, isHorizontal)
 	let playgroundCurbGeometry = (isHorizontal) ? new THREE.BoxGeometry(4, 2, size) : new THREE.BoxGeometry(size, 2, 4);
 	let playgroundCurbMaterial = new THREE.MeshBasicMaterial({ color: 0x2C393F});
 	let playgroundCurb = new THREE.Mesh(playgroundCurbGeometry, playgroundCurbMaterial);
-	curb.position.set(x, y, z);
+	playgroundCurb.position.set(x, y, z);
 	scene.add(playgroundCurb);
 }
 
