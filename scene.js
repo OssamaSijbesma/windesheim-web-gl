@@ -223,7 +223,6 @@ playground.rotation.x = - Math.PI / 2;
 playground.position.set(0,0.5,140);
 scene.add(playground);
 
-
 // Load the sidewalks texture.
 let textureSidewalk = textureLoader.load("resources/sidewalks.jpg");
 textureSidewalk.wrapS = textureSidewalk.wrapT = THREE.RepeatWrapping;
@@ -257,7 +256,7 @@ let textureWood = textureLoader.load( "resources/wood.jpg" );
 textureWood.wrapS = textureWood.wrapT = THREE.RepeatWrapping;
 textureWood.repeat.set(4,4);
 
-// House
+// A house model.
 let houseMaterial = new THREE.MeshBasicMaterial({ map: textureWood });
 let houseModel = new THREE.Mesh(new THREE.BoxGeometry(80, 80, 250), houseMaterial);
 
@@ -270,7 +269,7 @@ function createHouse(x){
 createHouse(-150);
 createHouse(190);
 
-// Balcony
+// A balcony model.
 let balconyMaterial = new THREE.MeshBasicMaterial({ map: textureWood });
 let balconyModel = new THREE.Mesh(new THREE.BoxGeometry(30, 10, 250), balconyMaterial);
 
@@ -283,13 +282,12 @@ function createBalcony(x){
 createBalcony(-95);
 createBalcony(135);
 
-
 // Load the floor texture.
 let textureDoorstep = textureLoader.load("resources/floor.jpg");
 textureDoorstep.wrapS = textureDoorstep.wrapT = THREE.RepeatWrapping;
 textureDoorstep.repeat.set(4, 8);
 
-// Doorstep
+// A doorstep model.
 let doorstepMaterial = new THREE.MeshPhongMaterial({ map: textureDoorstep });
 let doorstepModel = new THREE.Mesh(new THREE.BoxGeometry(30, 2, 250) , doorstepMaterial);
 
@@ -302,17 +300,16 @@ function createDoorstep(x){
 createDoorstep(-95);
 createDoorstep(135);
 
-
 // Load the bush texture.
 let textureBush = textureLoader.load("resources/bush.jpg");
 textureBush.wrapS = textureBush.wrapT = THREE.RepeatWrapping;
 textureBush.repeat.set(8,1);
 
-// Bush 
+// A bush model.
 let bushMaterial = new THREE.MeshBasicMaterial({ map: textureBush });
 let bush = new THREE.Mesh(new THREE.BoxGeometry(8, 12, 45), bushMaterial);
 
-// Create bushes with bush texture
+// Create bushes with bush texture.
 for (let z = 105; z > -80; z-= 60) {
 	let bush1 = bush.clone();
 	bush1.position.set(-84, 8, z);
@@ -323,14 +320,13 @@ for (let z = 105; z > -80; z-= 60) {
 	scene.add(bush2);
 }
 
-
 // Load the roof texture.
 let textureRoof = textureLoader.load( "resources/roof.jpg" );
 textureRoof.wrapS = textureRoof.wrapT = THREE.RepeatWrapping;
 textureRoof.repeat.set(2,2);
 textureRoof.rotation = Math.PI /2;
 
-// Roof
+// a Roof model with the roof texture.
 let roofGeometry = new THREE.PlaneBufferGeometry(47.1699, 250);
 let roofMaterial = new THREE.MeshPhongMaterial({ map: textureRoof });
 let roof = new THREE.Mesh(roofGeometry, roofMaterial);
@@ -360,7 +356,7 @@ roof4.rotation.y = -0.585097;
 roof4.rotation.x = Math.PI / -2;
 scene.add(roof4);
 
-// Roofsides
+// Roofsides made with vectors.
 let triangle = new THREE.Geometry();
 triangle.vertices.push(new THREE.Vector3(0, 0, 0));
 triangle.vertices.push(new THREE.Vector3(80, 0, 0));
@@ -386,11 +382,11 @@ createRoofside(150, -125, false);
 createRoofside(-110, 125, true);
 createRoofside(-190, -125, false);
 
-// Rooftop
+// A rooftop model.
 let roofTopMaterial = new THREE.MeshBasicMaterial({ color: 0x291405 });
 let roofTopModel = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 250, 32), roofTopMaterial);
 
-// Create a rooftop
+// Create a rooftop.
 function createRooftop(x){
 	let roofTop = roofTopModel.clone();
 	roofTop.rotation.x = -Math.PI/2;
@@ -404,7 +400,7 @@ createRooftop(190);
 // Load the brick texture.
 let brickTexture = textureLoader.load("resources/bricks.jpg");
 
-// Chimney
+// A chimney with the brick texture.
 let chimneyMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 100, map: brickTexture });
 let chimneyModel = new THREE.Mesh(new THREE.BoxGeometry(16, 20, 9), chimneyMaterial);
 
@@ -423,7 +419,7 @@ createChimney(190, -60, 70);
 // Load the glass texture.
 let windowTexture = textureLoader.load("resources/glass.png");
 
-// Window
+// A window model with the glass texture.
 let windowMaterial = new THREE.MeshBasicMaterial({ color: 0x889993, map: windowTexture });
 let windowModel = new THREE.Mesh(new THREE.PlaneBufferGeometry(28, 16), windowMaterial);
 windowModel.material.side = THREE.DoubleSide;
@@ -444,7 +440,7 @@ createWindows(149.5, -50, 60);
 // Load the door texture.
 let doorTexture = textureLoader.load("resources/door.jpg");
 
-// Door
+// Create a door model
 let doorMaterial = new THREE.MeshBasicMaterial({ color: 0x889993, map: doorTexture });
 let doorModel = new THREE.Mesh(new THREE.PlaneBufferGeometry(16, 36), doorMaterial);
 doorModel.material.side = THREE.DoubleSide;
@@ -462,7 +458,7 @@ function createDoors(x, zMin, zMax)
 createDoors(-109.5, -52, 58);
 createDoors(149.5, -52, 58);
 
-// Create pillars and fences for the houses
+// Create pillars and fences for the houses.
 let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0x889993});
 let fenceModel = new THREE.Mesh(new THREE.PlaneBufferGeometry(28, 24), fenceMaterial);
 fenceModel.material.side = THREE.DoubleSide;
@@ -471,7 +467,7 @@ fenceModel.rotation.z = Math.PI / 2;
 let pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xfefce2} );
 let pillarModel = new THREE.Mesh(new THREE.CylinderGeometry( 1, 1, 46, 32 ), pillarMaterial);
 
-// Create pillars and fences
+// Create pillars and fences.
 function createPillarsAndFences(x, zMin, zMax){
 
 	for (let z = zMin; z < zMax; z+=15) {
@@ -492,7 +488,7 @@ createPillarsAndFences(125, -60, 75);
 
 /*___ 7. Decoration ___*/
 
-// Big choicken
+// Big choicken! made with a model.
 objectLoader.load("resources/models/chicken/minecraft-chicken.json", function ( chickenObject )
 {
 	chickenObject.scale.set(5, 5, 5);
@@ -531,7 +527,7 @@ makeLamppost(-45, 25, -60);
 makeLamppost(85, 25, 20);
 makeLamppost(-45, 25, 100);
 
-// Benches
+// Create multiple benches with the bench model.
 objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchObject )
 {
 	benchObject.scale.set(0.08, 0.08, 0.08);
@@ -557,7 +553,7 @@ objectLoader.load("resources/models/bench/wood-bench-2.json", function ( benchOb
 	scene.add(bench4);
 });
 
-// Dogs
+// Create two dogs with a dog model.
 objectLoader.load("resources/models/dog/marching-dog.json", function ( dogObject )
 {
 	dogObject.scale.set(250, 250, 250);
@@ -577,7 +573,7 @@ objectLoader.load("resources/models/dog/marching-dog.json", function ( dogObject
 // Load the football texture.
 let footballTexture = textureLoader.load("resources/football.jpg");
 
-// Football
+// Create a football with the football texture.
 let footballMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map: footballTexture });
 let football = new THREE.Mesh(new THREE.SphereGeometry(2, 24, 24), footballMaterial);
 football.position.set(0,2,0);
@@ -591,7 +587,7 @@ scene.add(football);
 /*___ 8. Render Page ___*/
 var render = function(){
 
-	// Football animation
+	// Football animation where the ball goes back and forward till a certain point.
 	if (isBalling)
 	{
 		football.position.z += 0.5;
@@ -603,14 +599,12 @@ var render = function(){
 		football.rotation.x -= 0.1;
 	}
 
-	if (football.position.z > 20)
-		isBalling = false;
+	// Switch the direction of the ball.
+	if (football.position.z > 20 || football.position.z < -20)
+		isBalling = !isBalling;
 
-	if (football.position.z < -20)
-		isBalling = true;
-
+	// Render the screen.
 	renderer.render(scene, camera);
-	controls.update();
 	requestAnimationFrame(render);  
 }
 render();
