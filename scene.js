@@ -16,36 +16,40 @@
 
 /*___ 1. General ___*/
 
-// Create scene
+// Create scene.
 let scene = new THREE.Scene();
 
-// Create renderer
+// Create renderer.
 let renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.shadowMapEnabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMapEnabled = true;
+
+// Add renderer to the document.
 document.body.appendChild(renderer.domElement);
 
-// loaders
+// initialize loaders.
 let objectLoader = new THREE.ObjectLoader();
 let textureLoader = new THREE.TextureLoader();
 
 
 
 /*___ Camera ___*/
+// For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
 
 // Perspective camera to mimic the way the human eye sees.
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
-// Start position of the camera
+// Start position of the camera.
 camera.position.x = -2;
 camera.position.y = 44;
 camera.position.z = -115;
 
+// Enable Orbit Controls.
 let controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableRotate = true;
 controls.enableZoom = false;
 
-// Legacy controls
+// Legacy controls.
 controls.keys = {
 	LEFT: 188,
 	UP: 33,
@@ -53,14 +57,14 @@ controls.keys = {
 	BOTTOM: 34
 }
 
-//Camera movement through the arrow keys
+// Arrow key is pressed.
 let ArrowUp = false;
 let ArrowDown = false;
 let ArrowLeft = false;
 let ArrowRight = false;
 
-camera.rotation.y = 180 * Math.PI / 180;
 
+// Event listener to see if a key is pressed down.
 document.addEventListener('keydown', function(event) {
 	switch(event.code){
 		case 'ArrowUp': ArrowUp = true; break
@@ -70,6 +74,7 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
+// Event listener to see if a key is released.
 document.addEventListener('keyup', function(event) {
 	switch(event.code){
 		case 'ArrowUp': ArrowUp = false; break
@@ -79,22 +84,7 @@ document.addEventListener('keyup', function(event) {
 	}
 });
 
-var panFront = function() {
-
-    let v = new THREE.Vector3();
-
-    return function panFront( distance, objectMatrix ) {
-
-        v.setFromMatrixColumn( objectMatrix, 2 ); // get Z column of objectMatrix
-        v.y = 0;
-
-        v.multiplyScalar( -distance );
-
-        panOffset.add( v );
-    };
-
-}();
-
+// Update the position of the camera with the orbit controls functions.
 function updatePosition(){
 	if (ArrowUp) controls.panForward(1);
 	if (ArrowDown) controls.panForward(-1);
@@ -110,9 +100,8 @@ function updatePosition(){
 	controls.update();
 }
 
- this.interval = setInterval(updatePosition, 10);
-
-// For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
+// Call the update with an interval.
+this.interval = setInterval(updatePosition, 10);
 
 
 
@@ -133,11 +122,11 @@ scene.background = new THREE.CubeTextureLoader()
 /*___ 4. Simulate Daylight ___*/ 
 
 // Hemisphere light: A light source positioned directly above the scene, with color fading from the sky color to the ground color.
-var hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.5);
+let hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.5);
 scene.add(hemisphereLight);
 
 // Directional light: A light that gets emitted in a specific direction.
-var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(0, 100, -350);
 directionalLight.castShadow = true;
 directionalLight.shadowDarkness = 1;
@@ -147,8 +136,7 @@ scene.add(directionalLight);
 
 /*___ 5. Floor ___*/
 
-// Grass
-// Grass models
+// Load the grass models and place it.
 objectLoader.load("resources/models/grass/dense-grass.json", function ( grassObject ) {
 	grassObject.scale.set(0.1,0.3,0.1);
 	grassObject.position.y = -10;
@@ -177,14 +165,14 @@ objectLoader.load("resources/models/grass/dense-grass.json", function ( grassObj
 	}
 });
 
-// Grass texture
+// Load the grass texture.
 var textureGrass = textureLoader.load("resources/grass.jpg");
 textureGrass.wrapS = textureGrass.wrapT = THREE.RepeatWrapping;
+textureGrass.encoding = THREE.sRGBEncoding;
 textureGrass.repeat.set( 8, 4 );
 textureGrass.anisotropy = 16;
-textureGrass.encoding = THREE.sRGBEncoding;
 
-// Lawn
+// Create a lawn with the grass texture.
 let lawnGeometry = new THREE.PlaneBufferGeometry(120, 280);
 let lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
 let lawn = new THREE.Mesh(lawnGeometry, lawnMaterial);
@@ -194,45 +182,45 @@ lawn.position.x = 20;
 lawn.position.z = 80;
 scene.add(lawn);
 
-// Lawn borders
-function createCurbSmall(x, y, z, size, isHorizontal)
+// Create curbs around the lawn.
+function createLawnCurb(x, y, z, size, isHorizontal)
 {
-	let lawnBorderGeometry = (isHorizontal) ? new THREE.BoxGeometry(1, 1, size) : new THREE.BoxGeometry(size, 1, 1);
-	let lawnBorderMaterial = new THREE.MeshBasicMaterial({ color: 0x2C393F});
-	let lawnBorder = new THREE.Mesh(lawnBorderGeometry, lawnBorderMaterial);
-	lawnBorder.position.set(x, y, z);
-	scene.add(lawnBorder);
+	let lawnCurbsGeometry = (isHorizontal) ? new THREE.BoxGeometry(1, 1, size) : new THREE.BoxGeometry(size, 1, 1);
+	let lawnCurbsMaterial = new THREE.MeshBasicMaterial({ color: 0x2C393F});
+	let lawnCurbs = new THREE.Mesh(lawnCurbsGeometry, lawnCurbsMaterial);
+	lawnCurbs.position.set(x, y, z);
+	scene.add(lawnCurbs);
 }
 
-createCurbSmall(-40, 0, 20, 160, true);
-createCurbSmall(80, 0, 80, 280, true);
-createCurbSmall(-40, 0, 200, 40, true);
-createCurbSmall(20, 0, -60, 120, false);
-createCurbSmall(20, 0, 220, 120, false);
-createCurbSmall(120, 0, 40, 440, true);
-createCurbSmall(-80, 0, 40, 440, true);
+createLawnCurb(-40, 0, 20, 160, true);
+createLawnCurb(80, 0, 80, 280, true);
+createLawnCurb(-40, 0, 200, 40, true);
+createLawnCurb(20, 0, -60, 120, false);
+createLawnCurb(20, 0, 220, 120, false);
+createLawnCurb(120, 0, 40, 440, true);
+createLawnCurb(-80, 0, 40, 440, true);
 
-// playground curb
-function createCurb(x, y, z, size, isHorizontal)
+// Create curbs around the playground.
+function createPlaygroundCurb(x, y, z, size, isHorizontal)
 {
-	let curbGeometry = (isHorizontal) ? new THREE.BoxGeometry(4, 2, size) : new THREE.BoxGeometry(size, 2, 4);
-	let curbMaterial = new THREE.MeshBasicMaterial({ color: 0x2C393F});
-	let curb = new THREE.Mesh(curbGeometry, curbMaterial);
-	curb.position.set(x, y, z);
-	scene.add(curb);
+	let playgroundCurbGeometry = (isHorizontal) ? new THREE.BoxGeometry(4, 2, size) : new THREE.BoxGeometry(size, 2, 4);
+	let playgroundCurbMaterial = new THREE.MeshBasicMaterial({ color: 0x2C393F});
+	let playgroundCurb = new THREE.Mesh(playgroundCurbGeometry, playgroundCurbMaterial);
+	playgroundCurb.position.set(x, y, z);
+	scene.add(playgroundCurb);
 }
 
-createCurb(-40, 0, 140, 80, true);
-createCurb(40, 0, 140, 80, true);
-createCurb(0, 0, 100, 84, false);
-createCurb(0, 0, 180, 84, false);
+createPlaygroundCurb(-40, 0, 140, 80, true);
+createPlaygroundCurb(40, 0, 140, 80, true);
+createPlaygroundCurb(0, 0, 100, 84, false);
+createPlaygroundCurb(0, 0, 180, 84, false);
 
-// Grass texture
+// Load the wood chips texture.
 let textureWoodChips = textureLoader.load( "resources/woodchips.jpg" );
 textureWoodChips.wrapS = textureWoodChips.wrapT = THREE.RepeatWrapping;
 textureWoodChips.repeat.set(4,4);
 
-// playground
+// Create a playground with the wood chips texture.
 let playgroundGeometry = new THREE.PlaneBufferGeometry(76, 76);
 let playgroundMaterial = new THREE.MeshPhongMaterial({ map: textureWoodChips });
 let playground = new THREE.Mesh(playgroundGeometry, playgroundMaterial);
@@ -241,14 +229,13 @@ playground.position.set(0,0.5,140);
 scene.add(playground);
 
 
-// Sidewalks texture
-var textureSidewalk = textureLoader.load("resources/sidewalks.jpg");
+// Load the sidewalks texture.
+let textureSidewalk = textureLoader.load("resources/sidewalks.jpg");
+textureSidewalk.wrapS = textureSidewalk.wrapT = THREE.RepeatWrapping;
 
-// Sidewalk
+// Create the sidewalk with the sidewalk texture.
 function createSidewalk(xi, y, zi, width, height)
 {
-	//textureSidewalk.repeat.set(255/width, 255/height);
-	textureSidewalk.wrapS = textureSidewalk.wrapT  = THREE.RepeatWrapping;
 	let sidewalkGeometry = new THREE.PlaneBufferGeometry(40, 40);
 	let sidewalkMaterial = new THREE.MeshPhongMaterial({ map: textureSidewalk });
 	let sidewalk = new THREE.Mesh(sidewalkGeometry, sidewalkMaterial);
