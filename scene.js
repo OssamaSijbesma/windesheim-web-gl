@@ -28,6 +28,10 @@ camera.position.z = -115;
 
 let controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableRotate = true;
+controls.keys = {
+	LEFT: 37, //left arrow
+	RIGHT: 39, // right arrow
+}
 
 // For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
 
@@ -507,7 +511,6 @@ var render = function(){
 
 	if (football.position.z < -20)
 		isBalling = true;
-	
 
 	renderer.render(scene, camera);
 	controls.update();
