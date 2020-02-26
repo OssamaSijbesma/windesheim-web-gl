@@ -1,7 +1,20 @@
 // Made by Thomas Vuister and Ossama Sijbesma 
+// Based off the location Reigerstraat 9 - 8446HP, Heerenveen
 // https://threejs.org/docs/#api/en/
 
-/*___ General ___*/
+/*___ CHAPTERS ___*/
+// 1. General
+// 2. Camera
+// 3. SkyBox
+// 4. Simulate Daylight
+// 5. Floor
+// 6. Houses
+// 7. Decoration
+// 8. Render Page
+
+
+
+/*___ 1. General ___*/
 
 // Create scene
 let scene = new THREE.Scene();
@@ -15,6 +28,8 @@ document.body.appendChild(renderer.domElement);
 // loaders
 let objectLoader = new THREE.ObjectLoader();
 let textureLoader = new THREE.TextureLoader();
+
+
 
 /*___ Camera ___*/
 
@@ -99,7 +114,9 @@ function updatePosition(){
 
 // For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
 
-/*___ SkyBox ___*/
+
+
+/*___ 3. SkyBox ___*/
 scene.background = new THREE.CubeTextureLoader()
 	.setPath('resources/skybox/')
 	.load([
@@ -111,7 +128,9 @@ scene.background = new THREE.CubeTextureLoader()
 		'negz.jpg'
 	]);
 
-/*___ Simulate Daylight ___*/ 
+
+
+/*___ 4. Simulate Daylight ___*/ 
 
 // Hemisphere light: A light source positioned directly above the scene, with color fading from the sky color to the ground color.
 var hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.5);
@@ -124,7 +143,9 @@ directionalLight.castShadow = true;
 directionalLight.shadowDarkness = 1;
 scene.add(directionalLight);
 
-/*___ Floor ___*/
+
+
+/*___ 5. Floor ___*/
 
 // Grass
 // Grass models
@@ -247,7 +268,9 @@ createSidewalk(100, 0, -40, 40, 280);
 createSidewalk(-60, 0, -160, 200, 120);
 createSidewalk(-60, 0, 240, 200, 40);
 
-/*___ Houses ___*/
+
+
+/*___ 6. Houses ___*/
 
 let textureWood = textureLoader.load( "resources/wood.jpg" );
 textureWood.wrapS = textureWood.wrapT = THREE.RepeatWrapping;
@@ -296,7 +319,6 @@ let doorstep2 = doorstep.clone();
 doorstep2.position.set(135, 1, 0);
 scene.add(doorstep2);
 
-
 // Bush texture
 let textureBush = textureLoader.load("resources/bush.jpg");
 textureBush.wrapS = textureBush.wrapT = THREE.RepeatWrapping;
@@ -313,7 +335,6 @@ for (let z = 105; z > -80; z-= 60) {
 	bush2.position.set(124, 8, z);
 	scene.add(bush2);
 }
-
 
 // roof
 let textureRoof = textureLoader.load( "resources/roof.jpg" );
@@ -349,7 +370,6 @@ roof4.rotation.y = -0.585097;
 roof4.rotation.x = Math.PI / -2;
 scene.add(roof4);
 
-
 // Roofsides
 let triangle = new THREE.Geometry();
 triangle.vertices.push(new THREE.Vector3(0, 0, 0));
@@ -378,7 +398,6 @@ scene.add(roofWall3);
 let roofWall4 = roofWall.clone();
 roofWall4.position.set(-190, 80, -125);
 scene.add(roofWall4);
-
 
 // Rooftop
 let roofTopGeometry = new THREE.CylinderGeometry(1, 1, 250, 32);
@@ -461,7 +480,8 @@ createPillarsAndFence(-85, -60, 75);
 createPillarsAndFence(125, -60, 75);
 
 
-/*___ Decoration ___*/
+
+/*___ 7. Decoration ___*/
 
 // Big choicken
 objectLoader.load("resources/models/chicken/minecraft-chicken.json", function ( chickenObject )
@@ -556,7 +576,9 @@ football.castShadow = true;
 let isBalling = true;
 scene.add(football);
 
-/*___ Render Page ___*/
+
+
+/*___ 8. Render Page ___*/
 var render = function(){
 
 	// Football animation
