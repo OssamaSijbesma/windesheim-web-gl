@@ -22,7 +22,7 @@ let scene = new THREE.Scene();
 // Create renderer.
 let renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMapEnabled = true;
+renderer.shadowMap.enabled = true;
 
 // Add renderer to the document.
 document.body.appendChild(renderer.domElement);
@@ -33,7 +33,7 @@ let textureLoader = new THREE.TextureLoader();
 
 
 
-/*___ Camera ___*/
+/*___ 2. Camera ___*/
 // For first person camera controls use: https://threejs.org/docs/#examples/en/controls/PointerLockControls
 
 // Perspective camera to mimic the way the human eye sees.
@@ -129,7 +129,6 @@ scene.add(hemisphereLight);
 let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(0, 100, -350);
 directionalLight.castShadow = true;
-directionalLight.shadowDarkness = 1;
 scene.add(directionalLight);
 
 
@@ -173,9 +172,8 @@ textureGrass.repeat.set( 8, 4 );
 textureGrass.anisotropy = 16;
 
 // Create a lawn with the grass texture.
-let lawnGeometry = new THREE.PlaneBufferGeometry(120, 280);
 let lawnMaterial = new THREE.MeshPhongMaterial({ map: textureGrass });
-let lawn = new THREE.Mesh(lawnGeometry, lawnMaterial);
+let lawn = new THREE.Mesh(new THREE.PlaneBufferGeometry(120, 280), lawnMaterial);
 lawn.receiveShadow = true;
 lawn.rotation.x = - Math.PI / 2;
 lawn.position.x = 20;
@@ -221,9 +219,8 @@ textureWoodChips.wrapS = textureWoodChips.wrapT = THREE.RepeatWrapping;
 textureWoodChips.repeat.set(4,4);
 
 // Create a playground with the wood chips texture.
-let playgroundGeometry = new THREE.PlaneBufferGeometry(76, 76);
 let playgroundMaterial = new THREE.MeshPhongMaterial({ map: textureWoodChips });
-let playground = new THREE.Mesh(playgroundGeometry, playgroundMaterial);
+let playground = new THREE.Mesh(new THREE.PlaneBufferGeometry(76, 76), playgroundMaterial);
 playground.rotation.x = - Math.PI / 2;
 playground.position.set(0,0.5,140);
 scene.add(playground);
@@ -234,22 +231,20 @@ let textureSidewalk = textureLoader.load("resources/sidewalks.jpg");
 textureSidewalk.wrapS = textureSidewalk.wrapT = THREE.RepeatWrapping;
 
 // Create the sidewalk with the sidewalk texture.
+let sidewalkMaterial = new THREE.MeshPhongMaterial({ map: textureSidewalk });
+let sidewalkModel = new THREE.Mesh(new THREE.PlaneBufferGeometry(40, 40), sidewalkMaterial);
+sidewalkModel.rotation.x = - Math.PI / 2;
+
 function createSidewalk(xi, y, zi, width, height)
 {
-	let sidewalkGeometry = new THREE.PlaneBufferGeometry(40, 40);
-	let sidewalkMaterial = new THREE.MeshPhongMaterial({ map: textureSidewalk });
-	let sidewalk = new THREE.Mesh(sidewalkGeometry, sidewalkMaterial);
-	sidewalk.rotation.x = - Math.PI / 2;
-
 	for (let x = 0; x < width; x+=40) {
 		for (let z = 0; z < height; z+=40) {
-			let sidewalkBlock = sidewalk.clone();
-			sidewalkBlock.position.set(xi+x, y, zi+z);
-			scene.add(sidewalkBlock);
+			let sidewalk = sidewalkModel.clone();
+			sidewalk.position.set(xi+x, y, zi+z);
+			scene.add(sidewalk);
 		}
 	}
 }
-
 createSidewalk(-60, 0, -40, 40, 280);
 createSidewalk(100, 0, -40, 40, 280);
 createSidewalk(-60, 0, -160, 200, 120);
